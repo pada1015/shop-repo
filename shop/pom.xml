@@ -1,0 +1,336 @@
+<?xml version="1.0"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+<!--
+	Aufrufe:
+	mvn test					User, DB und Tabellen erstellen sowie Tabellen laden und als XML exportieren
+	mvn process-test-resources	User, DB und Tabellen erstellen sowie Tabellen laden
+	mvn clean					DB und User loeschen
+
+	Properties aus settings.xml: 
+	- admin.password	Passwort des Administrators von MySQL
+	- user.password		Passwort des Anwendungs-Users
+	   
+	Weitere Properties muessen nicht ausgelagert werden, weil z.B. DB-Name, Name des Anwendungsusers
+	und DB-Schema auch in der EAR-Anwendung gesetzt werden und deshalb nicht frei waehlbar sind.
+-->
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>de.swa</groupId>
+	<artifactId>mysql</artifactId>
+	<version>1.0</version>
+	<name>mysql</name>
+	
+	<scm>
+		<developerConnection>scm:svn:http://www.iwi.hs-karlsruhe.de/svn/swa-g00/swaDB/mysql</developerConnection>
+		<url>http://www.iwi.hs-karlsruhe.de/svn/swa-g00/swaDB/mysql</url>
+	</scm>
+
+	<organization>
+		<name>Hochschule Karlsruhe</name>   
+		<url>http://www.hs-karlsruhe.de</url>   
+	</organization>   
+
+	<developers>
+		<developer>
+			<id>Juergen.Zimmermann</id>
+			<name>J&#252;rgen Zimmermann</name>
+			<email>Juergen.Zimmermann@HS-Karlsruhe.de</email>
+			<url>http://www.iwi.hs-karlsruhe.de</url>
+			<organization>Hochschule Karlsruhe</organization>
+			<organizationUrl>http://www.iwi.hs-karlsruhe.de</organizationUrl>
+			<roles>
+				<role>Dozent</role>
+			</roles>
+			<timezone>+1</timezone>     <!-- relativ zu GMT -->
+		</developer>
+	</developers>
+	
+	<properties>
+		<driver.version>5.1.18</driver.version>
+		<driver>com.mysql.jdbc.Driver</driver>
+		<urlAdmin>jdbc:mysql:///mysql</urlAdmin>
+		<dbname>swadb</dbname>
+		<url>jdbc:mysql:///${dbname}</url>
+		<user>swa</user>
+		
+		<sql.dir>src/main/resources</sql.dir>
+		<csv.dir>src/test/resources</csv.dir>
+		
+		<xml.dir>${project.build.directory}/dbunit</xml.dir>
+		
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+	
+	<build>
+		<defaultGoal>test</defaultGoal>
+		
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>sql-maven-plugin</artifactId>
+				<version>1.5</version>
+
+				<!-- JDBC Treiber -->
+				<dependencies>
+					<dependency>
+						<groupId>mysql</groupId>
+						<artifactId>mysql-connector-java</artifactId>
+						<version>${driver.version}</version>
+					</dependency>
+				</dependencies>
+
+				<!-- Gemeinsame Konfiguration fuer alle Aufrufe -->
+				<configuration>
+					<driver>${driver}</driver>
+					<url>${url}</url>
+					<username>root</username>
+					<password>${admin.password}</password>
+				</configuration>
+				
+				<executions>
+					<execution>
+						<id>validate</id>
+						<phase>validate</phase>
+						<goals>
+							<goal>execute</goal>
+						</goals>
+						
+						<configuration>
+							<url>${urlAdmin}</url>
+							<sqlCommand>
+								SELECT 1;
+							</sqlCommand>
+						</configuration>
+					</execution>
+					
+					<execution>
+						<id>create-user</id>
+						<phase>initialize</phase>
+						<goals>
+							<goal>execute</goal>
+						</goals>
+						
+						<configuration>
+							<url>${urlAdmin}</url>
+							<!-- CREATE USER kann beim wiederholten Aufruf nicht mehr funktionieren -->
+							<onError>continue</onError>
+							<sqlCommand>
+								CREATE USER ${user} IDENTIFIED BY '${user.password}';
+								CREATE USER ${user}@localhost IDENTIFIED BY '${user.password}';
+							</sqlCommand>
+						</configuration>
+					</execution>
+
+					<execution>
+						<id>create-db</id>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>execute</goal>
+						</goals>
+						
+						<configuration>
+							<url>${urlAdmin}</url>
+							<sqlCommand>
+								DROP DATABASE IF EXISTS ${dbname};
+								CREATE DATABASE ${dbname};
+							</sqlCommand>
+						</configuration>
+					</execution>
+
+					<execution>
+						<id>grant</id>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>execute</goal>
+						</goals>
+						
+						<configuration>
+							<url>${url}</url>
+							<sqlCommand>
+								GRANT CREATE, DROP, ALTER, INDEX, CREATE ROUTINE, SELECT, INSERT, UPDATE, DELETE, EXECUTE, TRIGGER ON ${dbname}.* TO ${user};
+								GRANT CREATE, DROP, ALTER, INDEX, CREATE ROUTINE, SELECT, INSERT, UPDATE, DELETE, EXECUTE, TRIGGER ON ${dbname}.* TO ${user}@localhost;
+							</sqlCommand>
+						</configuration>
+					</execution>
+
+					<execution>
+						<id>create-tables</id>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>execute</goal>
+						</goals>
+						
+						<configuration>
+							<url>${url}</url>
+							<!-- Anwendungsuser wird Owner der Anwendungs-Tabellen -->
+							<username>${user}</username>
+							<password>${user.password}</password>
+							<enableFiltering>true</enableFiltering>
+							<srcFiles>
+								<srcFile>${sql.dir}/create-tables.sql</srcFile>
+							</srcFiles>
+						</configuration>
+					</execution>
+					
+					<execution>
+						<id>create-trigger</id>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>execute</goal>
+						</goals>
+						
+						<configuration>
+							<username>${user}</username>
+							<password>${user.password}</password>
+							<!-- ";" in separater Zeile, weil ";" innerhalb von Trigger-Anweisungen benoetigt wird -->
+							<delimiterType>row</delimiterType>
+							<enableFiltering>true</enableFiltering>
+							<srcFiles>
+								<srcFile>${sql.dir}/create-trigger.sql</srcFile>
+							</srcFiles>
+						</configuration>
+					</execution>
+					
+					<execution>
+						<id>revoke</id>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>execute</goal>
+						</goals>
+						
+						<configuration>
+							<url>${url}</url>
+							<sqlCommand>
+								REVOKE CREATE, DROP, ALTER, INDEX, CREATE ROUTINE ON ${dbname}.* FROM ${user};
+								REVOKE CREATE, DROP, ALTER, INDEX, CREATE ROUTINE ON ${dbname}.* FROM ${user}@localhost;
+							</sqlCommand>
+						</configuration>
+					</execution>
+
+					<execution>
+						<id>load</id>
+						<phase>process-test-resources</phase>
+						<goals>
+							<goal>execute</goal>
+						</goals>
+						
+						<configuration>
+							<url>${url}</url>
+							<username>${user}</username>
+							<password>${user.password}</password>
+							<enableFiltering>true</enableFiltering>
+							<srcFiles>
+								<srcFile>${sql.dir}/load-csv.sql</srcFile>
+							</srcFiles>
+						</configuration>
+					</execution>
+					
+					<execution>
+						<id>drop-database-and-user</id>
+						<phase>clean</phase>
+						<goals>
+							<goal>execute</goal>
+						</goals>
+						
+						<configuration>
+							<url>${urlAdmin}</url>
+							<sqlCommand>
+								DROP DATABASE IF EXISTS ${dbname};
+								DROP USER ${user};
+								DROP USER ${user}@localhost;
+							</sqlCommand>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.7</version>
+				
+				<executions>
+					<execution>
+						<id>generate-load-csv</id>
+						<phase>generate-test-resources</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+
+						<configuration>
+							<target>
+								<delete file="${basedir}/${sql.dir}/load-csv.sql"/>
+								<copy file="${sql.dir}/load-csv.template.sql" tofile="${sql.dir}/load-csv.sql">
+									<filterset>
+										<filter token="CSVDIR" value="${basedir}/${csv.dir}"/>
+									</filterset>
+								</copy>
+								<replace file="${sql.dir}/load-csv.sql" token="\" value="/"/>
+							</target>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>dbunit-maven-plugin</artifactId>
+				<version>1.0-beta-3</version>
+				
+				<dependencies>
+					<dependency>
+						<groupId>mysql</groupId>
+						<artifactId>mysql-connector-java</artifactId>
+						<version>${driver.version}</version>
+					</dependency>
+				</dependencies>
+				
+				<configuration>
+					<driver>${driver}</driver>
+					<url>${url}</url>
+					<username>${user}</username>
+					<password>${user.password}</password>
+					<dataTypeFactoryName>org.dbunit.ext.mysql.MySqlDataTypeFactory</dataTypeFactoryName>
+					<ordered>true</ordered>
+					<supportBatchStatement>true</supportBatchStatement>
+					<!-- Linux, Unix, Mac: -->
+					<!--
+					<caseSensitiveTableNames>true</caseSensitiveTableNames>
+					-->
+				</configuration>
+				
+				<executions>
+					<execution>
+						<id>export-dtd</id>
+						<phase>test</phase>
+						<goals>
+							<goal>export</goal>
+						</goals>
+
+						<configuration>
+							<format>dtd</format>
+							<dest>${xml.dir}/db.dtd</dest>
+						</configuration>
+					</execution>
+
+					<execution>
+						<id>export-flat-xml</id>
+						<phase>test</phase>
+						<goals>
+							<goal>export</goal>
+						</goals>
+
+						<configuration>
+							<format>flat</format>
+							<doctype>db.dtd</doctype>
+							<dest>${xml.dir}/db.xml</dest>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>
