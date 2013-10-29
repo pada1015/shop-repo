@@ -11,8 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class Kunde {
-		
+public class AbstraktKunde {
+		//FIXME
 	//Attribute der Klasse Kunde
 	@Id
 	@GeneratedValue
@@ -33,7 +33,7 @@ public class Kunde {
 	private String bemerkungen;	
 	
 	// Der Konstruktor der Klasse Kunde
-	public Kunde(Integer id, String vorname, String nachname, String email,
+	public AbstraktKunde(Integer id, String vorname, String nachname, String email,
 			Adresse adresse, Date seit, int rabatt, boolean newsletter,
 			Familienstand familienstand, Geschlecht geschlecht,
 			List<String> hobbies, String bemerkungen) {
@@ -148,11 +148,11 @@ public class Kunde {
 		this.bemerkungen = bemerkungen;
 	}
 	
-	public boolean sucheNachKunden(List<Kunde> kundenListe, Kunde kunde) {
+	public boolean sucheNachKunden(List<AbstraktKunde> kundenListe, AbstraktKunde kunde) {
 		
 		boolean tmp = false;
 		
-		for(Kunde k : kundenListe) {
+		for(AbstraktKunde k : kundenListe) {
 			if(kundenListe != null && kunde != null && k.equals(kunde) == true) {
 				tmp = true;
 				break;
@@ -169,7 +169,7 @@ public class Kunde {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Kunde other = (Kunde) obj;
+		AbstraktKunde other = (AbstraktKunde) obj;
 		if (adresse == null) {
 			if (other.adresse != null)
 				return false;
