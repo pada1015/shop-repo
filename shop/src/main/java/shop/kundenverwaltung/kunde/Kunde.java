@@ -12,21 +12,7 @@ import javax.persistence.ManyToOne;
 
 @Entity
 public class Kunde {
-	/**
-	 * @param id
-	 * @param vorname
-	 * @param nachname
-	 * @param email
-	 * @param adresse
-	 * @param seit
-	 * @param rabatt
-	 * @param newsletter
-	 * @param familienstand
-	 * @param geschlecht
-	 * @param hobbies
-	 * @param bemerkungen
-	 */
-	
+		
 	//Attribute der Klasse Kunde
 	@Id
 	@GeneratedValue
@@ -46,10 +32,6 @@ public class Kunde {
 	private List<String> hobbies;
 	private String bemerkungen;	
 	
-	
-	
-
-
 	// Der Konstruktor der Klasse Kunde
 	public Kunde(Integer id, String vorname, String nachname, String email,
 			Adresse adresse, Date seit, int rabatt, boolean newsletter,
@@ -70,295 +52,210 @@ public class Kunde {
 		this.bemerkungen = bemerkungen;
 	}
 
-
-
-
-
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(Object arg0) {
-		// TODO Auto-generated method stub
-		return super.equals(arg0);
-	}
-
-
-
-
-
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		// TODO Auto-generated method stub
-		return super.toString();
-	}
-
-
-
-
-
-	/**
-	 * @return the id
-	 */
 	public Integer getId() {
 		return id;
 	}
 
-
-
-
-
-	/**
-	 * @param id the id to set
-	 */
 	public void setId(Integer id) {
 		this.id = id;
 	}
 
-
-
-
-
-	/**
-	 * @return the vorname
-	 */
 	public String getVorname() {
 		return vorname;
 	}
 
-
-
-
-
-	/**
-	 * @param vorname the vorname to set
-	 */
 	public void setVorname(String vorname) {
 		this.vorname = vorname;
 	}
 
-
-
-
-
-	/**
-	 * @return the nachname
-	 */
 	public String getNachname() {
 		return nachname;
 	}
 
-
-
-
-
-	/**
-	 * @param nachname the nachname to set
-	 */
 	public void setNachname(String nachname) {
 		this.nachname = nachname;
 	}
 
-
-
-
-
-	/**
-	 * @return the email
-	 */
 	public String getEmail() {
 		return email;
 	}
 
-
-
-
-
-	/**
-	 * @param email the email to set
-	 */
 	public void setEmail(String email) {
 		this.email = email;
 	}
 
-
-
-
-
-	/**
-	 * @return the adresse
-	 */
 	public Adresse getAdresse() {
 		return adresse;
 	}
 
-
-
-
-
-	/**
-	 * @param adresse the adresse to set
-	 */
 	public void setAdresse(Adresse adresse) {
 		this.adresse = adresse;
 	}
 
-
-
-
-
-	/**
-	 * @return the seit
-	 */
 	public Date getSeit() {
 		return seit;
 	}
 
-
-
-
-
-	/**
-	 * @param seit the seit to set
-	 */
 	public void setSeit(Date seit) {
 		this.seit = seit;
 	}
 
-
-
-
-
-	/**
-	 * @return the rabatt
-	 */
 	public int getRabatt() {
 		return rabatt;
 	}
 
-
-
-
-
-	/**
-	 * @param rabatt the rabatt to set
-	 */
 	public void setRabatt(int rabatt) {
 		this.rabatt = rabatt;
 	}
 
-
-
-
-
-	/**
-	 * @return the newsletter
-	 */
 	public boolean isNewsletter() {
 		return newsletter;
 	}
 
-
-
-
-
-	/**
-	 * @param newsletter the newsletter to set
-	 */
 	public void setNewsletter(boolean newsletter) {
 		this.newsletter = newsletter;
 	}
 
-
-
-
-
-	/**
-	 * @return the familienstand
-	 */
 	public Familienstand getFamilienstand() {
 		return familienstand;
 	}
 
-
-
-
-
-	/**
-	 * @param familienstand the familienstand to set
-	 */
 	public void setFamilienstand(Familienstand familienstand) {
 		this.familienstand = familienstand;
 	}
 
-
-
-
-
-	/**
-	 * @return the geschlecht
-	 */
 	public Geschlecht getGeschlecht() {
 		return geschlecht;
 	}
 
-
-
-
-
-	/**
-	 * @param geschlecht the geschlecht to set
-	 */
 	public void setGeschlecht(Geschlecht geschlecht) {
 		this.geschlecht = geschlecht;
 	}
 
-
-
-
-
-	/**
-	 * @return the hobbies
-	 */
 	public List<String> getHobbies() {
 		return hobbies;
 	}
 
-
-
-
-
-	/**
-	 * @param hobbies the hobbies to set
-	 */
 	public void setHobbies(List<String> hobbies) {
 		this.hobbies = hobbies;
 	}
 
-
-
-
-
-	/**
-	 * @return the bemerkungen
-	 */
 	public String getBemerkungen() {
 		return bemerkungen;
 	}
 
-
-
-
-
-	/**
-	 * @param bemerkungen the bemerkungen to set
-	 */
 	public void setBemerkungen(String bemerkungen) {
 		this.bemerkungen = bemerkungen;
 	}
 	
+	public boolean sucheNachKunden(List<Kunde> kundenListe, Kunde kunde) {
+		
+		boolean tmp = false;
+		
+		for(Kunde k : kundenListe) {
+			if(kundenListe != null && kunde != null && k.equals(kunde) == true) {
+				tmp = true;
+				break;
+			}
+		}
+		return tmp;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Kunde other = (Kunde) obj;
+		if (adresse == null) {
+			if (other.adresse != null)
+				return false;
+		} else if (!adresse.equals(other.adresse))
+			return false;
+		if (bemerkungen == null) {
+			if (other.bemerkungen != null)
+				return false;
+		} else if (!bemerkungen.equals(other.bemerkungen))
+			return false;
+		if (email == null) {
+			if (other.email != null)
+				return false;
+		} else if (!email.equals(other.email))
+			return false;
+		if (familienstand != other.familienstand)
+			return false;
+		if (geschlecht != other.geschlecht)
+			return false;
+		if (hobbies == null) {
+			if (other.hobbies != null)
+				return false;
+		} else if (!hobbies.equals(other.hobbies))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (nachname == null) {
+			if (other.nachname != null)
+				return false;
+		} else if (!nachname.equals(other.nachname))
+			return false;
+		if (newsletter != other.newsletter)
+			return false;
+		if (rabatt != other.rabatt)
+			return false;
+		if (seit == null) {
+			if (other.seit != null)
+				return false;
+		} else if (!seit.equals(other.seit))
+			return false;
+		if (vorname == null) {
+			if (other.vorname != null)
+				return false;
+		} else if (!vorname.equals(other.vorname))
+			return false;
+		return true;
+	}
 	
-}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((adresse == null) ? 0 : adresse.hashCode());
+		result = prime * result
+				+ ((bemerkungen == null) ? 0 : bemerkungen.hashCode());
+		result = prime * result + ((email == null) ? 0 : email.hashCode());
+		result = prime * result
+				+ ((familienstand == null) ? 0 : familienstand.hashCode());
+		result = prime * result
+				+ ((geschlecht == null) ? 0 : geschlecht.hashCode());
+		result = prime * result + ((hobbies == null) ? 0 : hobbies.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result
+				+ ((nachname == null) ? 0 : nachname.hashCode());
+		result = prime * result + (newsletter ? 1231 : 1237);
+		result = prime * result + rabatt;
+		result = prime * result + ((seit == null) ? 0 : seit.hashCode());
+		result = prime * result + ((vorname == null) ? 0 : vorname.hashCode());
+		return result;
+	}
+	
+	@Override
+	public String toString() {
+		String s = null;
+		
+		s = id + " " + vorname + " " + nachname + " Geschlecht: " + geschlecht + "\n" + email +
+		"\nAdresse:\n" + adresse.getStrasse() + " " + adresse.getHausnummer() + "\n" +
+		adresse.getPlz() + " " + adresse.getStadt() + "\n" + 
+		"Kunde seit: " + seit + "\nRabatt: " + rabatt + "Von Newsletter abonniert: " + newsletter + " Familienstand: " + familienstand +
+		"\nHobbies: " + "\nBemerkungen: " + bemerkungen;
+		
+		return s;
+	}
+	
+	
+} 
