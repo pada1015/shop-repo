@@ -1,5 +1,5 @@
 
-package shop.kundenverwaltung.kunde;
+package de.shop.kundenverwaltung.domain;
 
 import java.util.Date;
 import java.util.List;
@@ -247,12 +247,11 @@ public class Kunde {
 	@Override
 	public String toString() {
 		String s = null;
-		
+		//TODO Zum Vollenden
 		s = id + " " + vorname + " " + nachname + " Geschlecht: " + geschlecht + "\n" + email +
 		"\nAdresse:\n" + adresse.getStrasse() + " " + adresse.getHausnummer() + "\n" +
-		adresse.getPlz() + " " + adresse.getStadt() + "\n" + 
-		"Kunde seit: " + seit + "\nRabatt: " + rabatt + "Von Newsletter abonniert: " + newsletter + " Familienstand: " + familienstand +
-		"\nHobbies: " + "\nBemerkungen: " + bemerkungen;
+		adresse.getPlz() + " " + adresse.getStadt() + "\n" + 		"Kunde seit: " + seit + "\nRabatt: " + rabatt + "Von Newsletter abonniert: " + newsletter + 
+		" Familienstand: " + familienstand + "\nHobbies: " + "\nBemerkungen: " + bemerkungen;
 		
 		return s;
 	}

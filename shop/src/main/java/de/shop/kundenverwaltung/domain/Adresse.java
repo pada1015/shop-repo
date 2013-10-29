@@ -1,4 +1,4 @@
-package shop.kundenverwaltung.kunde;
+package de.shop.kundenverwaltung.domain;
 
 import javax.persistence.Entity;
 

@@ -1,4 +1,4 @@
-package shop.kundenverwaltung.kunde;
+package de.shop.kundenverwaltung.domain;
 
 public enum Familienstand {
 	verheiratet, alleinlebend, verwitwet, geschieden;
