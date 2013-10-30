@@ -11,7 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class AbstraktKunde {
+public abstract class AbstraktKunde {
 		//FIXME
 	//Attribute der Klasse Kunde
 	@Id

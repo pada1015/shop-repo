@@ -43,9 +43,5 @@ public class Adresse {
 	public void setHausnummer(int hausnummer) {
 		this.hausnummer = hausnummer;
 	}
-	
-	
-
-	
 }
 
