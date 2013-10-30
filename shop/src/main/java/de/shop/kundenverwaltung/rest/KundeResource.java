@@ -1,10 +1,3 @@
-//package de.shop.kundenverwaltung.rest;
-//
-//public class KundeResource {
-//
-//}
-
-
 package de.shop.kundenverwaltung.rest;
 
 import static de.shop.util.Constants.ADD_LINK;
@@ -45,9 +38,6 @@ import de.shop.util.Mock;
 import de.shop.util.UriHelper;
 import de.shop.util.exception.NotFoundException;
 
-/**
- * @author varo1012
- */
 @Path("/kunden")
 @Produces({ APPLICATION_JSON, APPLICATION_XML + ";qs=0.75", TEXT_XML + ";qs=0.5" })
 @Consumes
@@ -109,8 +99,12 @@ public class KundeResource {
 		final Link update = Link.fromUri(uriHelper.getUri(KundeResource.class, uriInfo))
                                 .rel(UPDATE_LINK)
                                 .build();
+
+		final Link remove = Link.fromUri(uriHelper.getUri(KundeResource.class, "deleteKunde", kunde.getId(), uriInfo))
+                                .rel(REMOVE_LINK)
+                                .build();
 		
-		return new Link[] { self, add, update };
+		return new Link[] { self, add, update, remove };
 	}
 
 	
@@ -219,13 +213,5 @@ public class KundeResource {
 	public void updateKunde(AbstractKunde kunde) {
 		// TODO Anwendungskern statt Mock, Verwendung von Locale
 		Mock.updateKunde(kunde);
-	}
-	
-	@DELETE
-	@Path("{id:[1-9][0-9]*}")
-	@Produces
-	public void deleteKunde(@PathParam("id") Long kundeId) {
-		// TODO Anwendungskern statt Mock, Verwendung von Locale
-		Mock.deleteKunde(kundeId);
 	}
 }
