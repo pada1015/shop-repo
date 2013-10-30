@@ -3,7 +3,6 @@ package de.shop.kundenverwaltung.domain;
 
 import java.util.Date;
 import java.util.List;
-
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
