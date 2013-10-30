@@ -18,5 +18,4 @@ public class NotFoundExceptionMapper implements ExceptionMapper<NotFoundExceptio
 		                                  .build();
 		return response;
 	}
-
 }
