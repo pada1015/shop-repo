@@ -9,7 +9,10 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.xml.bind.annotation.XmlRootElement;
 
+
+@XmlRootElement 
 @Entity
 public abstract class AbstraktKunde {
 		//FIXME
