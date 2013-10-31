@@ -18,6 +18,12 @@ public class Adresse {
 		this.hausnummer = hausnummer;
 	}
 	
+
+	//Default Konstruktor
+	public Adresse() {	}
+
+
+
 	public String getStadt() {
 		return stadt;
 	}
