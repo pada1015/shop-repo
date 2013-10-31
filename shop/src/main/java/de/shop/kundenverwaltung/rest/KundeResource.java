@@ -16,8 +16,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -35,8 +33,8 @@ import de.shop.bestellverwaltung.domain.Bestellung;
 import de.shop.bestellverwaltung.rest.BestellungResource;
 import de.shop.kundenverwaltung.domain.AbstractKunde;
 import de.shop.util.Mock;
-import de.shop.util.rest.UriHelper;
 import de.shop.util.rest.NotFoundException;
+import de.shop.util.rest.UriHelper;
 
 @Path("/kunden")
 @Produces({ APPLICATION_JSON, APPLICATION_XML + ";qs=0.75", TEXT_XML + ";qs=0.5" })

@@ -1,35 +1,23 @@
 package de.shop.kundenverwaltung.domain;
 
-import javax.persistence.Entity;
+import java.io.Serializable;
 
-@Entity
-public class Adresse {
-	
-	private String stadt;
+import javax.xml.bind.annotation.XmlTransient;
+
+public class Adresse implements Serializable {
+	private static final long serialVersionUID = -3029272617931844501L;
+	private Long id;
 	private String plz;
-	private String strasse;
-	private int hausnummer;
+	private String ort;
 	
-	public Adresse(String stadt, String plz, String strasse, int hausnummer) {
-		super();
-		this.stadt = stadt;
-		this.plz = plz;
-		this.strasse = strasse;
-		this.hausnummer = hausnummer;
+	@XmlTransient
+	private AbstractKunde kunde;
+	
+	public Long getId() {
+		return id;
 	}
-	
-
-	//Default Konstruktor
-	public Adresse() {	}
-
-
-
-	public String getStadt() {
-		return stadt;
-	}
-	
-	public void setStadt(String stadt) {
-		this.stadt = stadt;
+	public void setId(Long id) {
+		this.id = id;
 	}
 	public String getPlz() {
 		return plz;
@@ -37,17 +25,60 @@ public class Adresse {
 	public void setPlz(String plz) {
 		this.plz = plz;
 	}
-	public String getStrasse() {
-		return strasse;
+	public String getOrt() {
+		return ort;
 	}
-	public void setStrasse(String strasse) {
-		this.strasse = strasse;
+	public void setOrt(String ort) {
+		this.ort = ort;
 	}
-	public int getHausnummer() {
-		return hausnummer;
+	
+	public AbstractKunde getKunde() {
+		return kunde;
 	}
-	public void setHausnummer(int hausnummer) {
-		this.hausnummer = hausnummer;
+	public void setKunde(AbstractKunde kunde) {
+		this.kunde = kunde;
+	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((ort == null) ? 0 : ort.hashCode());
+		result = prime * result + ((plz == null) ? 0 : plz.hashCode());
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Adresse other = (Adresse) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		}
+		else if (!id.equals(other.id))
+			return false;
+		if (ort == null) {
+			if (other.ort != null)
+				return false;
+		}
+		else if (!ort.equals(other.ort))
+			return false;
+		if (plz == null) {
+			if (other.plz != null)
+				return false;
+		}
+		else if (!plz.equals(other.plz))
+			return false;
+		return true;
+	}
+	
+	@Override
+	public String toString() {
+		return "Adresse [id=" + id + ", plz=" + plz + ", ort=" + ort + "]";
 	}
 }
-

@@ -22,8 +22,8 @@ import de.shop.bestellverwaltung.domain.Bestellung;
 import de.shop.kundenverwaltung.domain.AbstractKunde;
 import de.shop.kundenverwaltung.rest.KundeResource;
 import de.shop.util.Mock;
-import de.shop.util.rest.UriHelper;;
 import de.shop.util.rest.NotFoundException;
+import de.shop.util.rest.UriHelper;
 
 @Path("/bestellungen")
 @Produces({ APPLICATION_JSON, APPLICATION_XML + ";qs=0.75", TEXT_XML + ";qs=0.5" })
