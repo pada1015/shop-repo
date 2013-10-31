@@ -53,13 +53,6 @@ public class KundeResource {
 	private UriHelper uriHelper;
 	
 	@GET
-	@Produces({ TEXT_PLAIN, APPLICATION_JSON })
-	@Path("version")
-	public String getVersion() {
-		return "1.0";
-	}
-	
-	@GET
 	@Path("{" + KUNDEN_ID_PATH_PARAM + ":[1-9][0-9]*}")
 	public Response findKundeById(@PathParam(KUNDEN_ID_PATH_PARAM) Long id) {
 		// TODO Anwendungskern statt Mock, Verwendung von Locale
