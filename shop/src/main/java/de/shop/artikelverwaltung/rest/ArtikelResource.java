@@ -21,13 +21,10 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import de.shop.artikelverwaltung.domain.Artikel;
-import de.shop.bestellverwaltung.rest.BestellungResource;
-import de.shop.kundenverwaltung.domain.AbstractKunde;
 import de.shop.util.Mock;
 import de.shop.util.rest.NotFoundException;
 import de.shop.util.rest.UriHelper;
 
-//FIXME
 @Path("/artikel")
 @Produces({ APPLICATION_JSON, APPLICATION_XML + ";qs=0.75", TEXT_XML + ";qs=0.5" })
 @Consumes
@@ -38,9 +35,7 @@ public class ArtikelResource {
 	@Inject
 	private UriHelper uriHelper;
 	
-//	@Inject
-//	private BestellungResource bestellungResource;
-	
+	//FIXME
 	@GET
 	@Path("{id:[1-9][0-9]*}")
 	public Response findArtikelById(@PathParam("id") Long id) {
@@ -69,8 +64,6 @@ public class ArtikelResource {
 	}
 	
 	@POST
-	@Consumes({APPLICATION_JSON, APPLICATION_XML, TEXT_XML })
-	@Produces
 	public Response createArtikel(Artikel artikel) {
 		artikel = Mock.createArtikel(artikel);
 		return Response.created(getUriArtikel(artikel, uriInfo))
@@ -78,10 +71,7 @@ public class ArtikelResource {
 	}
 	
 	@PUT
-	@Consumes({APPLICATION_JSON, APPLICATION_XML, TEXT_XML })
-	@Produces
 	public void updateArtikel(Artikel artikel) {
-		// TODO Anwendungskern statt Mock, Verwendung von Locale
 		Mock.createArtikel(artikel);
 	}
 }

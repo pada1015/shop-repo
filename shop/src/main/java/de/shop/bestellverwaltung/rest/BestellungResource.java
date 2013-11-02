@@ -41,7 +41,6 @@ public class BestellungResource {
 	@GET
 	@Path("{id:[1-9][0-9]*}")
 	public Response findBestellungById(@PathParam("id") Long id) {
-		// TODO Anwendungskern statt Mock, Verwendung von Locale
 		final Bestellung bestellung = Mock.findBestellungById(id);
 		if (bestellung == null) {
 			throw new NotFoundException("Keine Bestellung mit der ID " + id + " gefunden.");

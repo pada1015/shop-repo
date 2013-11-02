@@ -118,10 +118,6 @@ public final class Mock {
 	public static void updateKunde(AbstractKunde kunde) {
 		System.out.println("Aktualisierter Kunde: " + kunde);
 	}
-
-//	public static void deleteKunde(Long kundeId) {
-//		System.out.println("Kunde mit ID=" + kundeId + " geloescht");
-//	}
 	
 	public static Artikel findArtikelById(Long id) {
 
@@ -132,20 +128,6 @@ public final class Mock {
 		
 		return artikel;
 	}
-	
-//	public static List<Bestellung> findBestellungenByKunde(AbstractKunde kunde) {
-//		// Beziehungsgeflecht zwischen Kunde und Bestellungen aufbauen
-//		final int anzahl = kunde.getId().intValue() % MAX_BESTELLUNGEN + 1;  // 1, 2, 3 oder 4 Bestellungen
-//		final List<Bestellung> bestellungen = new ArrayList<>(anzahl);
-//		for (int i = 1; i <= anzahl; i++) {
-//			final Bestellung bestellung = findBestellungById(Long.valueOf(i));
-//			bestellung.setKunde(kunde);
-//			bestellungen.add(bestellung);			
-//		}
-//		kunde.setBestellungen(bestellungen);
-//		
-//		return bestellungen;
-//	}
 
 	private Mock() { /**/ }
 
