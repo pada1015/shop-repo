@@ -90,12 +90,8 @@ public class KundeResource {
 		final Link update = Link.fromUri(uriHelper.getUri(KundeResource.class, uriInfo))
                                 .rel(UPDATE_LINK)
                                 .build();
-
-		final Link remove = Link.fromUri(uriHelper.getUri(KundeResource.class, "deleteKunde", kunde.getId(), uriInfo))
-                                .rel(REMOVE_LINK)
-                                .build();
 		
-		return new Link[] { self, add, update, remove };
+		return new Link[] { self, add, update};
 	}
 
 	
