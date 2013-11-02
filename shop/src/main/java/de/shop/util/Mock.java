@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import de.shop.artikelverwaltung.domain.Artikel;
 import de.shop.bestellverwaltung.domain.Bestellung;
 import de.shop.kundenverwaltung.domain.AbstractKunde;
 import de.shop.kundenverwaltung.domain.Adresse;
@@ -12,6 +13,7 @@ import de.shop.kundenverwaltung.domain.Firmenkunde;
 import de.shop.kundenverwaltung.domain.HobbyType;
 import de.shop.kundenverwaltung.domain.Privatkunde;
 
+//FIXME
 /**
  * Emulation des Anwendungskerns
  */
@@ -117,9 +119,48 @@ public final class Mock {
 		System.out.println("Aktualisierter Kunde: " + kunde);
 	}
 
-	public static void deleteKunde(Long kundeId) {
-		System.out.println("Kunde mit ID=" + kundeId + " geloescht");
+//	public static void deleteKunde(Long kundeId) {
+//		System.out.println("Kunde mit ID=" + kundeId + " geloescht");
+//	}
+	
+	public static Artikel findArtikelById(Long id) {
+
+		final Artikel artikel = new Artikel();
+		artikel.setId(id);
+		artikel.setName("Artikel" + id.toString());
+		artikel.setEinzelPrice(id+2);
+		
+		return artikel;
 	}
+	
+//	public static List<Bestellung> findBestellungenByKunde(AbstractKunde kunde) {
+//		// Beziehungsgeflecht zwischen Kunde und Bestellungen aufbauen
+//		final int anzahl = kunde.getId().intValue() % MAX_BESTELLUNGEN + 1;  // 1, 2, 3 oder 4 Bestellungen
+//		final List<Bestellung> bestellungen = new ArrayList<>(anzahl);
+//		for (int i = 1; i <= anzahl; i++) {
+//			final Bestellung bestellung = findBestellungById(Long.valueOf(i));
+//			bestellung.setKunde(kunde);
+//			bestellungen.add(bestellung);			
+//		}
+//		kunde.setBestellungen(bestellungen);
+//		
+//		return bestellungen;
+//	}
 
 	private Mock() { /**/ }
+
+	public static Artikel createArtikel(Artikel artikel) {
+		final String name = artikel.getName();
+		artikel.setId(Long.valueOf(name.length()));
+		artikel.setEinzelPrice(artikel.getId() * 5);
+		
+		System.out.println("Neuer Artikel: " + artikel);
+		return artikel;
+	}
+	
+	public static void updateArtikel(Artikel artikel) {
+		System.out.println("Aktualisierter Artikel: " + artikel);
+	}
+
+	
 }
