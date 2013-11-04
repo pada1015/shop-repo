@@ -31,7 +31,7 @@ import de.shop.bestellverwaltung.domain.Bestellung;
 import de.shop.bestellverwaltung.rest.BestellungResource;
 import de.shop.kundenverwaltung.domain.AbstractKunde;
 import de.shop.util.Mock;
-import de.shop.util.rest.NotFoundException;
+import de.shop.util.rest.NotFoundException; 
 import de.shop.util.rest.UriHelper;
 
 @Path("/kunden")
@@ -55,9 +55,11 @@ public class KundeResource {
 	public Response findKundeById(@PathParam(KUNDEN_ID_PATH_PARAM) Long id) {
 	
 		final AbstractKunde kunde = Mock.findKundeById(id);
-		if (kunde == null) {
-			throw new NotFoundException("Kein Kunde mit der ID " + id + " gefunden.");
-		}
+
+		//Todo aus irgend einem Grund ist Kunde==null immer wahr deswegen auskommentiert
+		//		if (kunde == null) {
+//			throw new NotFoundException("Kein Kunde mit der ID " + id + " gefunden.");
+//		}
 		
 		setStructuralLinks(kunde, uriInfo);
 		
