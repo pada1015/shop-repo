@@ -10,6 +10,7 @@ import java.net.URI;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -41,6 +42,7 @@ public class BestellungResource {
 	@GET
 	@Path("{id:[1-9][0-9]*}")
 	public Response findBestellungById(@PathParam("id") Long id) {
+
 		final Bestellung bestellung = Mock.findBestellungById(id);
 		if (bestellung == null) {
 			throw new NotFoundException("Keine Bestellung mit der ID " + id + " gefunden.");
@@ -54,6 +56,15 @@ public class BestellungResource {
                                           .build();
 		
 		return response;
+	}
+	
+	@POST
+	@Consumes({APPLICATION_JSON, APPLICATION_XML, TEXT_XML })
+	@Produces
+	public Response createBestellung(Bestellung bestellung) {
+		bestellung = Mock.createBestellung(bestellung);
+		return Response.created(getUriBestellung(bestellung, uriInfo))
+			           .build();
 	}
 	
 	public void setStructuralLinks(Bestellung bestellung, UriInfo uriInfo) {

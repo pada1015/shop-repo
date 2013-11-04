@@ -1,6 +1,5 @@
 package de.shop.artikelverwaltung.rest;
 
-import static de.shop.util.Constants.SELF_LINK;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static javax.ws.rs.core.MediaType.APPLICATION_XML;
 import static javax.ws.rs.core.MediaType.TEXT_XML;
@@ -16,7 +15,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.Link;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
@@ -29,6 +27,7 @@ import de.shop.util.rest.UriHelper;
 @Produces({ APPLICATION_JSON, APPLICATION_XML + ";qs=0.75", TEXT_XML + ";qs=0.5" })
 @Consumes
 public class ArtikelResource {
+	
 	@Context
 	private UriInfo uriInfo;
 	
@@ -44,20 +43,28 @@ public class ArtikelResource {
 		if (artikel == null) {
 			throw new NotFoundException("Kein Artikel mit der ID " + id + " gefunden.");
 		}
-				
+		
 		// Link-Header setzen
 		final Response response = Response.ok(artikel)
-                                          .links(getTransitionalLinks(artikel, uriInfo))
                                           .build();
 		return response;
 	}
 		
-	private Link[] getTransitionalLinks(Artikel artikel, UriInfo uriInfo) {
-		final Link self = Link.fromUri(getUriArtikel(artikel, uriInfo))
-                              .rel(SELF_LINK)
-                              .build();
-		return new Link[] { self };
-	}
+//	private Link[] getTransitionalLinks(Artikel artikel, UriInfo uriInfo) {
+//		final Link self = Link.fromUri(getUriArtikel(artikel, uriInfo))
+//				.rel(SELF_LINK)
+//				.build();
+//		
+//		final Link add = Link.fromUri(uriHelper.getUri(ArtikelResource.class, uriInfo))
+//                .rel(ADD_LINK)
+//                .build();
+//
+//		final Link update = Link.fromUri(uriHelper.getUri(ArtikelResource.class, uriInfo))
+//                .rel(UPDATE_LINK)
+//                .build();
+//
+//		return new Link[] { self, add, update};
+//	}
 	
 	public URI getUriArtikel(Artikel artikel, UriInfo uriInfo) {
 		return uriHelper.getUri(ArtikelResource.class, "findArtikelById", artikel.getId(), uriInfo);

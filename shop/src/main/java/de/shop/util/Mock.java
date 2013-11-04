@@ -85,6 +85,15 @@ public final class Mock {
 		
 		return bestellungen;
 	}
+	
+	public static Bestellung createBestellung(Bestellung bestellung) {
+		
+		bestellung.setId(Long.valueOf(1));
+		bestellung.setAusgeliefert(false);
+		
+		System.out.println("Neue Bestellung: " + bestellung);
+		return bestellung;
+	}
 
 	public static Bestellung findBestellungById(Long id) {
 		if (id > MAX_ID) {
@@ -124,7 +133,7 @@ public final class Mock {
 		final Artikel artikel = new Artikel();
 		artikel.setId(id);
 		artikel.setName("Artikel" + id.toString());
-		artikel.setEinzelPrice(id+2);
+		artikel.setEinzelPrice((long)artikel.getName().length()*2);
 		
 		return artikel;
 	}
@@ -134,7 +143,7 @@ public final class Mock {
 	public static Artikel createArtikel(Artikel artikel) {
 		final String name = artikel.getName();
 		artikel.setId(Long.valueOf(name.length()));
-		artikel.setEinzelPrice(artikel.getId() * 5);
+		artikel.setEinzelPrice((long)artikel.getName().length()*2);
 		
 		System.out.println("Neuer Artikel: " + artikel);
 		return artikel;

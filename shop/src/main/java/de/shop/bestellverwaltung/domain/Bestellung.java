@@ -10,15 +10,25 @@ import de.shop.kundenverwaltung.domain.AbstractKunde;
 
 @XmlRootElement
 public class Bestellung implements Serializable {
+	/**
+	 * @param id
+	 * @param ausgeliefert
+	 * @param kunde
+	 */
+	public Bestellung() {	}
+
 	private static final long serialVersionUID = 1618359234119003714L;
 	
 	private Long id;
 	private boolean ausgeliefert;
 	
+	
 	@XmlTransient
 	private AbstractKunde kunde;
 	
 	private URI kundeUri;
+	
+	
 	
 	public Long getId() {
 		return id;
