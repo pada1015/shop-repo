@@ -7,19 +7,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 public class Artikel implements Serializable {
-	/**
-	 * @param id
-	 * @param name
-	 * @param price
-	 */
-	public Artikel(Long id, String name, Long einzelPrice) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.einzelPrice = einzelPrice;
-	}
-		
-	public Artikel() { 	};
 	
 	private static final long serialVersionUID = 1618359234119003714L;
 	

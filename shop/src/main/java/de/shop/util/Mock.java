@@ -13,10 +13,6 @@ import de.shop.kundenverwaltung.domain.Firmenkunde;
 import de.shop.kundenverwaltung.domain.HobbyType;
 import de.shop.kundenverwaltung.domain.Privatkunde;
 
-//FIXME
-/**
- * Emulation des Anwendungskerns
- */
 public final class Mock {
 	private static final int MAX_ID = 99;
 	private static final int MAX_KUNDEN = 8;
@@ -70,7 +66,6 @@ public final class Mock {
 		}
 		return kunden;
 	}
-	
 
 	public static List<Bestellung> findBestellungenByKunde(AbstractKunde kunde) {
 		// Beziehungsgeflecht zwischen Kunde und Bestellungen aufbauen
@@ -133,17 +128,16 @@ public final class Mock {
 		final Artikel artikel = new Artikel();
 		artikel.setId(id);
 		artikel.setName("Artikel" + id.toString());
-		artikel.setEinzelPrice((long)artikel.getName().length()*2);
+		artikel.setEinzelPrice((long) artikel.getName().length() * 2);
 		
 		return artikel;
 	}
-
-	private Mock() { /**/ }
-
+	
 	public static Artikel createArtikel(Artikel artikel) {
 		final String name = artikel.getName();
 		artikel.setId(Long.valueOf(name.length()));
-		artikel.setEinzelPrice((long)artikel.getName().length()*2);
+		artikel.setEinzelPrice((long) artikel.getName().length() * 2);
+		
 		
 		System.out.println("Neuer Artikel: " + artikel);
 		return artikel;
@@ -153,5 +147,5 @@ public final class Mock {
 		System.out.println("Aktualisierter Artikel: " + artikel);
 	}
 
-	
+	private Mock() { /**/ }
 }

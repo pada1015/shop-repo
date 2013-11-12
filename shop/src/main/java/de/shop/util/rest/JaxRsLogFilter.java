@@ -40,6 +40,6 @@ public class JaxRsLogFilter implements ContainerRequestFilter, ContainerResponse
 	@Override
 	public void filter(ContainerRequestContext requestCtx, ContainerResponseContext responseCtx) throws IOException {
 		LOGGER.debugf("Status Info: %d %s", responseCtx.getStatus(), responseCtx.getStatusInfo());
-		LOGGER.debugf("Location: %s", responseCtx.getLocation());		
+		LOGGER.debugf("Location: %s", responseCtx.getLocation());
 	}
 }

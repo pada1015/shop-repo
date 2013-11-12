@@ -89,7 +89,7 @@ import de.shop.bestellverwaltung.domain.Bestellung;
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		AbstractKunde other = (AbstractKunde) obj;
+		final AbstractKunde other = (AbstractKunde) obj;
 		if (email == null) {
 			if (other.email != null)
 				return false;

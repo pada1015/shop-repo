@@ -1,5 +1,6 @@
 package de.shop.artikelverwaltung.rest;
 
+import static de.shop.util.Constants.SELF_LINK;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static javax.ws.rs.core.MediaType.APPLICATION_XML;
 import static javax.ws.rs.core.MediaType.TEXT_XML;
@@ -15,12 +16,12 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.Link;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import de.shop.artikelverwaltung.domain.Artikel;
 import de.shop.util.Mock;
-import de.shop.util.rest.NotFoundException;
 import de.shop.util.rest.UriHelper;
 
 @Path("/artikel")
@@ -34,38 +35,34 @@ public class ArtikelResource {
 	@Inject
 	private UriHelper uriHelper;
 	
-	//FIXME
 	@GET
 	@Path("{id:[1-9][0-9]*}")
 	public Response findArtikelById(@PathParam("id") Long id) {
 		
 		final Artikel artikel = Mock.findArtikelById(id);
-		if (artikel == null) {
-			throw new NotFoundException("Kein Artikel mit der ID " + id + " gefunden.");
-		}
 		
+		setStructuralLinks(artikel, uriInfo);
 		// Link-Header setzen
 		final Response response = Response.ok(artikel)
-                                          .build();
+										.links(getTransitionalLinks(artikel, uriInfo))
+                                        .build();
 		return response;
 	}
-		
-//	private Link[] getTransitionalLinks(Artikel artikel, UriInfo uriInfo) {
-//		final Link self = Link.fromUri(getUriArtikel(artikel, uriInfo))
-//				.rel(SELF_LINK)
-//				.build();
-//		
-//		final Link add = Link.fromUri(uriHelper.getUri(ArtikelResource.class, uriInfo))
-//                .rel(ADD_LINK)
-//                .build();
-//
-//		final Link update = Link.fromUri(uriHelper.getUri(ArtikelResource.class, uriInfo))
-//                .rel(UPDATE_LINK)
-//                .build();
-//
-//		return new Link[] { self, add, update};
-//	}
 	
+	public void setStructuralLinks(Artikel artikel, UriInfo uriInfo) {
+		// URI fuer Artikel setzen
+		final URI uri = getUriArtikel(artikel, uriInfo);
+		artikel.setArtikelUri(uri);
+	}
+	
+	public Link[] getTransitionalLinks(Artikel artikel, UriInfo uriInfo) {
+		final Link self = Link.fromUri(getUriArtikel(artikel, uriInfo))
+	                          .rel(SELF_LINK)
+	                          .build();
+		
+		return new Link[] { self };
+	}
+
 	public URI getUriArtikel(Artikel artikel, UriInfo uriInfo) {
 		return uriHelper.getUri(ArtikelResource.class, "findArtikelById", artikel.getId(), uriInfo);
 	}

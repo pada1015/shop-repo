@@ -2,33 +2,27 @@ package de.shop.bestellverwaltung.domain;
 
 import java.io.Serializable;
 import java.net.URI;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
+import de.shop.artikelverwaltung.domain.Artikel;
 import de.shop.kundenverwaltung.domain.AbstractKunde;
 
 @XmlRootElement
 public class Bestellung implements Serializable {
-	/**
-	 * @param id
-	 * @param ausgeliefert
-	 * @param kunde
-	 */
-	public Bestellung() {	}
 
 	private static final long serialVersionUID = 1618359234119003714L;
 	
 	private Long id;
 	private boolean ausgeliefert;
-	
-	
+	private List<Artikel> artikeln;
+		
 	@XmlTransient
 	private AbstractKunde kunde;
 	
-	private URI kundeUri;
-	
-	
+	private URI kundeUri;	
 	
 	public Long getId() {
 		return id;
@@ -54,6 +48,12 @@ public class Bestellung implements Serializable {
 	}
 	public void setKundeUri(URI kundeUri) {
 		this.kundeUri = kundeUri;
+	}	
+	public List<Artikel> getArtikeln() {
+		return artikeln;
+	}
+	public void setArtikeln(List<Artikel> artikeln) {
+		this.artikeln = artikeln;
 	}
 	
 	@Override
@@ -80,7 +80,7 @@ public class Bestellung implements Serializable {
 			return false;
 		return true;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Bestellung [id=" + id + ", ausgeliefert=" + ausgeliefert + ", kundeUri=" + kundeUri + "]";

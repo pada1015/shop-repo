@@ -56,10 +56,9 @@ public class KundeResource {
 	
 		final AbstractKunde kunde = Mock.findKundeById(id);
 
-		//Todo aus irgend einem Grund ist Kunde==null immer wahr deswegen auskommentiert
-		//		if (kunde == null) {
-//			throw new NotFoundException("Kein Kunde mit der ID " + id + " gefunden.");
-//		}
+				if (kunde == null) {
+			throw new NotFoundException("Kein Kunde mit der ID " + id + " gefunden.");
+		}
 		
 		setStructuralLinks(kunde, uriInfo);
 		
@@ -90,10 +89,9 @@ public class KundeResource {
 		final Link update = Link.fromUri(uriHelper.getUri(KundeResource.class, uriInfo))
                                 .rel(UPDATE_LINK)
                                 .build();
-		
-		return new Link[] { self, add, update};
-	}
 
+		return new Link[] {self, add, update};
+	}
 	
 	public URI getUriKunde(AbstractKunde kunde, UriInfo uriInfo) {
 		return uriHelper.getUri(KundeResource.class, "findKundeById", kunde.getId(), uriInfo);
@@ -120,7 +118,7 @@ public class KundeResource {
 			setStructuralLinks(k, uriInfo);
 		}
 		
-		return Response.ok(new GenericEntity<List<? extends AbstractKunde>>(kunden){})
+		return Response.ok(new GenericEntity<List<? extends AbstractKunde>>(kunden) { })
                        .links(getTransitionalLinksKunden(kunden, uriInfo))
                        .build();
 	}
@@ -138,7 +136,7 @@ public class KundeResource {
                               .rel(LAST_LINK)
                               .build();
 		
-		return new Link[] { first, last };
+		return new Link[] {first, last};
 	}
 	
 	@GET
@@ -160,7 +158,8 @@ public class KundeResource {
                        .build();
 	}
 	
-	private Link[] getTransitionalLinksBestellungen(List<Bestellung> bestellungen, AbstractKunde kunde, UriInfo uriInfo) {
+	private Link[] getTransitionalLinksBestellungen(List<Bestellung> bestellungen, 
+			AbstractKunde kunde, UriInfo uriInfo) {
 		if (bestellungen == null || bestellungen.isEmpty()) {
 			return new Link[0];
 		}
@@ -178,7 +177,7 @@ public class KundeResource {
                               .rel(LAST_LINK)
                               .build();
 		
-		return new Link[] { self, first, last };
+		return new Link[] {self, first, last};
 	}
 	
 	@POST
