@@ -66,6 +66,24 @@ public final class Mock {
 		}
 		return kunden;
 	}
+	
+	public static AbstractKunde createKunde(AbstractKunde kunde) {
+		// Neue IDs fuer Kunde und zugehoerige Adresse
+		// Ein neuer Kunde hat auch keine Bestellungen
+		final String nachname = kunde.getNachname();
+		kunde.setId(Long.valueOf(nachname.length()));
+		final Adresse adresse = kunde.getAdresse();
+		adresse.setId((Long.valueOf(nachname.length())) + 1);
+		adresse.setKunde(kunde);
+		kunde.setBestellungen(null);
+		
+		System.out.println("Neuer Kunde: " + kunde);
+		return kunde;
+	}
+	
+	public static void updateKunde(AbstractKunde kunde) {
+		System.out.println("Aktualisierter Kunde: " + kunde);
+	}
 
 	public static List<Bestellung> findBestellungenByKunde(AbstractKunde kunde) {
 		// Beziehungsgeflecht zwischen Kunde und Bestellungen aufbauen
@@ -82,10 +100,10 @@ public final class Mock {
 	}
 	
 	public static Bestellung createBestellung(Bestellung bestellung) {
+		// Neue IDs fuer Bestellung
 		
-		bestellung.setId(Long.valueOf(1));
-		bestellung.setAusgeliefert(false);
-		
+		bestellung.setId(Long.valueOf(5));
+				
 		System.out.println("Neue Bestellung: " + bestellung);
 		return bestellung;
 	}
@@ -96,31 +114,16 @@ public final class Mock {
 		}
 
 		final AbstractKunde kunde = findKundeById(id + 1);  // andere ID fuer den Kunden
-
+		
 		final Bestellung bestellung = new Bestellung();
+		
+		findArtikelById(id * 2);
+		findArtikelById(id * 4);
 		bestellung.setId(id);
 		bestellung.setAusgeliefert(false);
 		bestellung.setKunde(kunde);
 		
 		return bestellung;
-	}
-
-	public static AbstractKunde createKunde(AbstractKunde kunde) {
-		// Neue IDs fuer Kunde und zugehoerige Adresse
-		// Ein neuer Kunde hat auch keine Bestellungen
-		final String nachname = kunde.getNachname();
-		kunde.setId(Long.valueOf(nachname.length()));
-		final Adresse adresse = kunde.getAdresse();
-		adresse.setId((Long.valueOf(nachname.length())) + 1);
-		adresse.setKunde(kunde);
-		kunde.setBestellungen(null);
-		
-		System.out.println("Neuer Kunde: " + kunde);
-		return kunde;
-	}
-
-	public static void updateKunde(AbstractKunde kunde) {
-		System.out.println("Aktualisierter Kunde: " + kunde);
 	}
 	
 	public static Artikel findArtikelById(Long id) {
@@ -145,6 +148,10 @@ public final class Mock {
 	
 	public static void updateArtikel(Artikel artikel) {
 		System.out.println("Aktualisierter Artikel: " + artikel);
+	}
+	
+	public static void updateBestellung(Bestellung bestellung) {
+		System.out.println("Aktualisierte Bestellung: " + bestellung);
 	}
 
 	private Mock() { /**/ }

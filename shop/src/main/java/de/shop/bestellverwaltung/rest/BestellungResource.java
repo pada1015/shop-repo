@@ -11,6 +11,7 @@ import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -85,5 +86,12 @@ public class BestellungResource {
 	
 	public URI getUriBestellung(Bestellung bestellung, UriInfo uriInfo) {
 		return uriHelper.getUri(BestellungResource.class, "findBestellungById", bestellung.getId(), uriInfo);
+	}
+	
+	@PUT
+	@Consumes({APPLICATION_JSON, APPLICATION_XML, TEXT_XML })
+	@Produces
+	public void updateBestellung(Bestellung bestellung) {
+		Mock.updateBestellung(bestellung);
 	}
 }

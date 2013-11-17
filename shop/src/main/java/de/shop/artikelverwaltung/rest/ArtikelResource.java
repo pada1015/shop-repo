@@ -68,6 +68,8 @@ public class ArtikelResource {
 	}
 	
 	@POST
+	@Consumes({APPLICATION_JSON, APPLICATION_XML, TEXT_XML })
+	@Produces
 	public Response createArtikel(Artikel artikel) {
 		artikel = Mock.createArtikel(artikel);
 		return Response.created(getUriArtikel(artikel, uriInfo))
@@ -75,7 +77,9 @@ public class ArtikelResource {
 	}
 	
 	@PUT
+	@Consumes({APPLICATION_JSON, APPLICATION_XML, TEXT_XML })
+	@Produces
 	public void updateArtikel(Artikel artikel) {
-		Mock.createArtikel(artikel);
+		Mock.updateArtikel(artikel);
 	}
 }
