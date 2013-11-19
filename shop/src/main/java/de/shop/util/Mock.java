@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import de.shop.artikelverwaltung.domain.Artikel;
+import de.shop.bestellverwaltung.domain.BestellPosition;
 import de.shop.bestellverwaltung.domain.Bestellung;
 import de.shop.kundenverwaltung.domain.AbstractKunde;
 import de.shop.kundenverwaltung.domain.Adresse;
@@ -17,7 +18,7 @@ public final class Mock {
 	private static final int MAX_ID = 99;
 	private static final int MAX_KUNDEN = 8;
 	private static final int MAX_BESTELLUNGEN = 4;
-
+	
 	public static AbstractKunde findKundeById(Long id) {
 		if (id > MAX_ID) {
 			return null;
@@ -117,13 +118,35 @@ public final class Mock {
 		
 		final Bestellung bestellung = new Bestellung();
 		
-		findArtikelById(id * 2);
-		findArtikelById(id * 4);
 		bestellung.setId(id);
 		bestellung.setAusgeliefert(false);
 		bestellung.setKunde(kunde);
 		
 		return bestellung;
+	}
+	
+	public static List<BestellPosition> findBestellPositionenByBestellung(Bestellung bestellung) {
+		
+		final int anzahl = bestellung.getId().intValue();
+		final List<BestellPosition> bestellPositionen = new ArrayList<>(anzahl);
+		for (int i = 0; i <= anzahl; i++) {
+			final BestellPosition bp = findBestellPosition(bestellung);
+			bestellPositionen.add(bp);			
+		}
+				
+		return bestellPositionen;
+	}
+	
+	public static BestellPosition findBestellPosition(Bestellung bestellung) {
+		
+		BestellPosition bp = new BestellPosition();
+		Artikel artikel = findArtikelById(bestellung.getId());
+		
+		bp.setArtikel(artikel);
+		bp.setMenge(artikel.getId() * 3);
+		bp.setArtikelUri(artikel.getArtikelUri());
+		
+		return bp;
 	}
 	
 	public static Artikel findArtikelById(Long id) {

@@ -20,6 +20,7 @@ import javax.ws.rs.core.Link;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
+import de.shop.bestellverwaltung.domain.BestellPosition;
 import de.shop.bestellverwaltung.domain.Bestellung;
 import de.shop.kundenverwaltung.domain.AbstractKunde;
 import de.shop.kundenverwaltung.rest.KundeResource;
@@ -45,6 +46,7 @@ public class BestellungResource {
 	public Response findBestellungById(@PathParam("id") Long id) {
 
 		final Bestellung bestellung = Mock.findBestellungById(id);
+		
 		if (bestellung == null) {
 			throw new NotFoundException("Keine Bestellung mit der ID " + id + " gefunden.");
 		}
@@ -73,7 +75,8 @@ public class BestellungResource {
 		final AbstractKunde kunde = bestellung.getKunde();
 		if (kunde != null) {
 			final URI kundeUri = kundeResource.getUriKunde(bestellung.getKunde(), uriInfo);
-			bestellung.setKundeUri(kundeUri);
+			bestellung.setKundeUri(kundeUri);		
+				
 		}
 	}
 	
