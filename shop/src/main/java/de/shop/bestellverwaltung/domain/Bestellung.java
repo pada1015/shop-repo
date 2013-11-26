@@ -50,7 +50,12 @@ public class Bestellung implements Serializable {
 	public void setKundeUri(URI kundeUri) {
 		this.kundeUri = kundeUri;
 	}	
-	
+	public List<BestellPosition> getBestellPosition() {
+		return bestellPosition;
+	}
+	public void setBestellPosition(List<BestellPosition> bestellPosition) {
+		this.bestellPosition = bestellPosition;
+	}
 	
 	
 	@Override
