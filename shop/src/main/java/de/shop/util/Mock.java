@@ -115,7 +115,7 @@ public final class Mock {
 		}
 
 		final AbstractKunde kunde = findKundeById(id + 1);  // andere ID fuer den Kunden
-		
+		final BestellPosition bp = new BestellPosition(); 
 		final Bestellung bestellung = new Bestellung();
 		
 		bestellung.setId(id);

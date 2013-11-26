@@ -20,7 +20,6 @@ import javax.ws.rs.core.Link;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
-import de.shop.bestellverwaltung.domain.BestellPosition;
 import de.shop.bestellverwaltung.domain.Bestellung;
 import de.shop.kundenverwaltung.domain.AbstractKunde;
 import de.shop.kundenverwaltung.rest.KundeResource;
