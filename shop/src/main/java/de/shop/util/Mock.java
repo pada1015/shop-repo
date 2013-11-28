@@ -115,11 +115,10 @@ public final class Mock {
 		}
 
 		final AbstractKunde kunde = findKundeById(id + 1);  // andere ID fuer den Kunden
-		final List<BestellPosition> positionen = new List<BestellPosition>();
-		
+				
 		final BestellPosition bp = new BestellPosition();  //Eine Liste BestellPositionen
 		final Bestellung bestellung = new Bestellung(); //Die neue Bestellung
-		
+		final List<BestellPosition> positionen = new ArrayList<BestellPosition>();
 		bestellung.setId(id);
 		bestellung.setAusgeliefert(false);
 		bestellung.setKunde(kunde);
