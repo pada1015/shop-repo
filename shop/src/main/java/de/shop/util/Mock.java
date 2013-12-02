@@ -7,6 +7,7 @@ import java.util.Set;
 
 import de.shop.artikelverwaltung.domain.Artikel;
 import de.shop.bestellverwaltung.domain.Bestellung;
+import de.shop.bestellverwaltung.domain.Position;
 import de.shop.kundenverwaltung.domain.AbstractKunde;
 import de.shop.kundenverwaltung.domain.Adresse;
 import de.shop.kundenverwaltung.domain.Firmenkunde;
@@ -97,6 +98,11 @@ public final class Mock {
 		bestellung.setAusgeliefert(false);
 		bestellung.setKunde(kunde);
 		
+		Position p = new Position();
+		p.setAnzahl(id);
+		p.setArtikel(findArtikelById(id));
+		bestellung.setPosition(p);
+						
 		return bestellung;
 	}
 

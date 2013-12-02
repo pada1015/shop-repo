@@ -6,6 +6,7 @@ import static javax.ws.rs.core.MediaType.APPLICATION_XML;
 import static javax.ws.rs.core.MediaType.TEXT_XML;
 
 import java.net.URI;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -18,16 +19,16 @@ import javax.ws.rs.core.Link;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
+import de.shop.artikelverwaltung.domain.Artikel;
+import de.shop.artikelverwaltung.rest.ArtikelResource;
 import de.shop.bestellverwaltung.domain.Bestellung;
+import de.shop.bestellverwaltung.domain.Position;
 import de.shop.kundenverwaltung.domain.AbstractKunde;
 import de.shop.kundenverwaltung.rest.KundeResource;
 import de.shop.util.Mock;
 import de.shop.util.rest.UriHelper;
 import de.shop.util.rest.NotFoundException;
 
-/**
- * @author <a href="mailto:Juergen.Zimmermann@HS-Karlsruhe.de">J&uuml;rgen Zimmermann</a>
- */
 @Path("/bestellungen")
 @Produces({ APPLICATION_JSON, APPLICATION_XML + ";qs=0.75", TEXT_XML + ";qs=0.5" })
 @Consumes
@@ -39,7 +40,10 @@ public class BestellungResource {
 	private UriHelper uriHelper;
 	
 	@Inject
-	private KundeResource kundeResource;
+	private KundeResource kundeResource; 
+	
+	@Inject
+	private ArtikelResource artikelResource;
 	
 	@GET
 	@Path("{id:[1-9][0-9]*}")
@@ -58,6 +62,7 @@ public class BestellungResource {
                                           .build();
 		
 		return response;
+
 	}
 	
 	public void setStructuralLinks(Bestellung bestellung, UriInfo uriInfo) {
@@ -67,6 +72,14 @@ public class BestellungResource {
 			final URI kundeUri = kundeResource.getUriKunde(bestellung.getKunde(), uriInfo);
 			bestellung.setKundeUri(kundeUri);
 		}
+		
+		
+			final Artikel a = bestellung.getPosition().getArtikel();
+				if (a != null) {
+					final URI artikelUri = artikelResource.getUriArtikel(bestellung.getPosition().getArtikel(), uriInfo);
+					bestellung.setArtikelUri(artikelUri);
+				}
+			
 	}
 	
 	private Link[] getTransitionalLinks(Bestellung bestellung, UriInfo uriInfo) {
