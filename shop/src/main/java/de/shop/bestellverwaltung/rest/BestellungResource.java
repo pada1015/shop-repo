@@ -1,5 +1,7 @@
 package de.shop.bestellverwaltung.rest;
 
+import static de.shop.util.Constants.FIRST_LINK;
+import static de.shop.util.Constants.LAST_LINK;
 import static de.shop.util.Constants.SELF_LINK;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static javax.ws.rs.core.MediaType.APPLICATION_XML;
@@ -15,6 +17,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.Link;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
@@ -22,7 +25,7 @@ import javax.ws.rs.core.UriInfo;
 import de.shop.artikelverwaltung.domain.Artikel;
 import de.shop.artikelverwaltung.rest.ArtikelResource;
 import de.shop.bestellverwaltung.domain.Bestellung;
-import de.shop.bestellverwaltung.domain.Position;
+import de.shop.bestellverwaltung.domain.Posten;
 import de.shop.kundenverwaltung.domain.AbstractKunde;
 import de.shop.kundenverwaltung.rest.KundeResource;
 import de.shop.util.Mock;
@@ -72,15 +75,25 @@ public class BestellungResource {
 			final URI kundeUri = kundeResource.getUriKunde(bestellung.getKunde(), uriInfo);
 			bestellung.setKundeUri(kundeUri);
 		}
-		
-		
-			final Artikel a = bestellung.getPosition().getArtikel();
-				if (a != null) {
-					final URI artikelUri = artikelResource.getUriArtikel(bestellung.getPosition().getArtikel(), uriInfo);
-					bestellung.setArtikelUri(artikelUri);
-				}
-			
 	}
+		
+		public void setStructuralLinks(Posten post, UriInfo uriInfo) {
+			// URI fuer Artikel setzen
+			final Artikel a = post.getArtikel();
+			if (a != null) {
+				final URI artikelUri = artikelResource.getUriArtikel(post.getArtikel(), uriInfo);
+				post.setArtikelUri(artikelUri);
+			}
+		}
+		
+		
+//			final Artikel a = bestellung.getPosition().getArtikel();
+//				if (a != null) {
+//					final URI artikelUri = artikelResource.getUriArtikel(bestellung.getPosition().getArtikel(), uriInfo);
+//					bestellung.setArtikelUri(artikelUri);
+//				}
+			
+	
 	
 	private Link[] getTransitionalLinks(Bestellung bestellung, UriInfo uriInfo) {
 		final Link self = Link.fromUri(getUriBestellung(bestellung, uriInfo))
@@ -92,4 +105,6 @@ public class BestellungResource {
 	public URI getUriBestellung(Bestellung bestellung, UriInfo uriInfo) {
 		return uriHelper.getUri(BestellungResource.class, "findBestellungById", bestellung.getId(), uriInfo);
 	}
+	
+
 }

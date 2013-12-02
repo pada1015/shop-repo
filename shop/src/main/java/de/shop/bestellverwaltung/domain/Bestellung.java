@@ -17,13 +17,15 @@ private static final long serialVersionUID = 1618359234119003714L;
 	private Long id;
 	private boolean ausgeliefert;
 	
-	private URI artikelUri;
+	//private URI artikelUri;
+	
+	
 	
 	@XmlTransient
 	private AbstractKunde kunde;
 	
 	@XmlTransient
-	private Position position;
+	private List<Posten> posten;
 	
 	private URI kundeUri;
 
@@ -51,12 +53,12 @@ private static final long serialVersionUID = 1618359234119003714L;
 		this.kunde = kunde;
 	}
 
-	public Position getPosition() {
-		return position;
+	public List<Posten> getPosten() {
+		return posten;
 	}
 
-	public void setPosition(Position position) {
-		this.position = position;
+	public void setPosten(List<Posten> posten) {
+		this.posten = posten;
 	}
 
 	public URI getKundeUri() {
@@ -66,14 +68,7 @@ private static final long serialVersionUID = 1618359234119003714L;
 	public void setKundeUri(URI kundeUri) {
 		this.kundeUri = kundeUri;
 	}
-
-	public URI getArtikelUri() {
-		return artikelUri;
-	}
-
-	public void setArtikelUri(URI artikelUri) {
-		this.artikelUri = artikelUri;
-	}
 	
 	
+
 }

@@ -7,7 +7,7 @@ import java.util.Set;
 
 import de.shop.artikelverwaltung.domain.Artikel;
 import de.shop.bestellverwaltung.domain.Bestellung;
-import de.shop.bestellverwaltung.domain.Position;
+import de.shop.bestellverwaltung.domain.Posten;
 import de.shop.kundenverwaltung.domain.AbstractKunde;
 import de.shop.kundenverwaltung.domain.Adresse;
 import de.shop.kundenverwaltung.domain.Firmenkunde;
@@ -85,6 +85,21 @@ public final class Mock {
 		
 		return bestellungen;
 	}
+	
+	public static List<Posten> findPostenByBestellung(Bestellung bestellung) {
+		// Beziehungsgeflecht zwischen Bestellung und Posten aufbauen
+		final int anzahl = bestellung.getId().intValue() % MAX_BESTELLUNGEN + 1;  // 1, 2, 3 oder 4 Bestellungen
+		final List<Posten> posten = new ArrayList<>(anzahl);
+		for (int i = 1; i <= anzahl; i++) {
+			final Posten post = new Posten();
+			post.setAnzahl(anzahl);
+			post.setArtikel(Mock.findArtikelById((long)anzahl));
+			posten.add(post);			
+		}
+		bestellung.setPosten(posten);
+		
+		return posten;
+	}
 
 	public static Bestellung findBestellungById(Long id) {
 		if (id > MAX_ID) {
@@ -98,10 +113,12 @@ public final class Mock {
 		bestellung.setAusgeliefert(false);
 		bestellung.setKunde(kunde);
 		
-		Position p = new Position();
+		Posten p = new Posten();
 		p.setAnzahl(id);
 		p.setArtikel(findArtikelById(id));
-		bestellung.setPosition(p);
+		List<Posten> posten = new ArrayList<Posten>();
+		posten.add(p);
+		bestellung.setPosten(posten);
 						
 		return bestellung;
 	}

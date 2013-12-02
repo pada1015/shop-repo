@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.XmlTransient;
 import de.shop.artikelverwaltung.domain.Artikel;
 
 @XmlRootElement
-public class Position implements Serializable {
+public class Posten implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 
@@ -63,7 +63,7 @@ public class Position implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Position other = (Position) obj;
+		Posten other = (Posten) obj;
 		if (anzahl != other.anzahl)
 			return false;
 		if (artikel == null) {
