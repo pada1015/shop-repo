@@ -21,7 +21,7 @@ public class Bestellung implements Serializable {
 	private AbstractKunde kunde;
 	
 	@XmlTransient
-	private List<BestellPosition> bestellPosition;
+	private List<Position> positionen;
 	
 	private URI kundeUri;
 	
@@ -50,11 +50,11 @@ public class Bestellung implements Serializable {
 	public void setKundeUri(URI kundeUri) {
 		this.kundeUri = kundeUri;
 	}	
-	public List<BestellPosition> getBestellPosition() {
-		return bestellPosition;
+	public List<Position> getPosition() {
+		return positionen;
 	}
-	public void setBestellPosition(List<BestellPosition> bestellPosition) {
-		this.bestellPosition = bestellPosition;
+	public void setPosition(List<Position> positionen) {
+		this.positionen = positionen;
 	}
 	
 	
@@ -64,7 +64,7 @@ public class Bestellung implements Serializable {
 		int result = 1;
 		result = prime * result + (ausgeliefert ? 1231 : 1237);
 		result = prime * result
-				+ ((bestellPosition == null) ? 0 : bestellPosition.hashCode());
+				+ ((positionen == null) ? 0 : positionen.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((kunde == null) ? 0 : kunde.hashCode());
 		return result;
@@ -80,10 +80,10 @@ public class Bestellung implements Serializable {
 		Bestellung other = (Bestellung) obj;
 		if (ausgeliefert != other.ausgeliefert)
 			return false;
-		if (bestellPosition == null) {
-			if (other.bestellPosition != null)
+		if (positionen == null) {
+			if (other.positionen != null)
 				return false;
-		} else if (!bestellPosition.equals(other.bestellPosition))
+		} else if (!positionen.equals(other.positionen))
 			return false;
 		if (id == null) {
 			if (other.id != null)
@@ -101,7 +101,7 @@ public class Bestellung implements Serializable {
 	@Override
 	public String toString() {
 		return "Bestellung [id=" + id + ", ausgeliefert=" + ausgeliefert
-				+ ", kunde=" + kunde + ", bestellPosition=" + bestellPosition
+				+ ", kunde=" + kunde + ", bestellPosition=" + positionen
 				+ ", kundeUri=" + kundeUri + "]";
 	}
 }

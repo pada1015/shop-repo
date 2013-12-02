@@ -9,23 +9,23 @@ import javax.xml.bind.annotation.XmlTransient;
 import de.shop.artikelverwaltung.domain.Artikel;
 
 @XmlRootElement
-public class BestellPosition implements Serializable {
+public class Position implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 
-	private long menge;
+	private long anzahl;
 	
 	@XmlTransient
 	private Artikel artikel;
 
 	private URI artikelUri;
 
-	public long getMenge() {
-		return menge;
+	public long getAnzahl() {
+		return anzahl;
 	}
 
-	public void setMenge(long menge) {
-		this.menge = menge;
+	public void setAnzahl(long anzahl) {
+		this.anzahl = anzahl;
 	}
 	
 	public Artikel getArtikel() {
@@ -44,8 +44,4 @@ public class BestellPosition implements Serializable {
 		this.artikelUri = artikelUri;
 	}
 	
-	
-	
-	
-
 }

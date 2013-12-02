@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import de.shop.artikelverwaltung.domain.Artikel;
-import de.shop.bestellverwaltung.domain.BestellPosition;
+import de.shop.bestellverwaltung.domain.Position;
 import de.shop.bestellverwaltung.domain.Bestellung;
 import de.shop.kundenverwaltung.domain.AbstractKunde;
 import de.shop.kundenverwaltung.domain.Adresse;
@@ -116,36 +116,36 @@ public final class Mock {
 
 		final AbstractKunde kunde = findKundeById(id + 1);  // andere ID fuer den Kunden
 				
-		final BestellPosition bp = new BestellPosition();  //Eine Liste BestellPositionen
+		final Position bp = new Position();  //Eine Liste BestellPositionen
 		final Bestellung bestellung = new Bestellung(); //Die neue Bestellung
-		final List<BestellPosition> positionen = new ArrayList<BestellPosition>();
+		final List<Position> positionen = new ArrayList<Position>();
 		bestellung.setId(id);
 		bestellung.setAusgeliefert(false);
 		bestellung.setKunde(kunde);
-		bestellung.setBestellPosition(positionen);
+		positionen.add(bp);
 		
 		return bestellung;
 	}
 	
-	public static List<BestellPosition> findBestellPositionenByBestellung(Bestellung bestellung) {
+	public static List<Position> findBestellPositionenByBestellung(Bestellung bestellung) {
 		
 		final int anzahl = bestellung.getId().intValue();
-		final List<BestellPosition> bestellPositionen = new ArrayList<>(anzahl);
+		final List<Position> bestellPositionen = new ArrayList<>(anzahl);
 		for (int i = 0; i <= anzahl; i++) {
-			final BestellPosition bp = findBestellPosition(bestellung);
+			final Position bp = findBestellPosition(bestellung);
 			bestellPositionen.add(bp);			
 		}
 				
 		return bestellPositionen;
 	}
 	
-	public static BestellPosition findBestellPosition(Bestellung bestellung) {
+	public static Position findBestellPosition(Bestellung bestellung) {
 		
-		BestellPosition bp = new BestellPosition();
+		Position bp = new Position();
 		Artikel artikel = findArtikelById(bestellung.getId());
 		
 		bp.setArtikel(artikel);
-		bp.setMenge(artikel.getId() * 3);
+		bp.setAnzahl(artikel.getId() * 3);
 		bp.setArtikelUri(artikel.getArtikelUri());
 		
 		return bp;

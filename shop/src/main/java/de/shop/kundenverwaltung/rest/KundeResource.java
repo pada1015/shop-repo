@@ -7,6 +7,7 @@ import static de.shop.util.Constants.SELF_LINK;
 import static de.shop.util.Constants.UPDATE_LINK;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static javax.ws.rs.core.MediaType.APPLICATION_XML;
+import static javax.ws.rs.core.MediaType.TEXT_PLAIN;
 import static javax.ws.rs.core.MediaType.TEXT_XML;
 
 import java.net.URI;
@@ -49,6 +50,13 @@ public class KundeResource {
 	
 	@Inject
 	private UriHelper uriHelper;
+	
+	@GET
+	@Produces({ TEXT_PLAIN, APPLICATION_JSON })
+	@Path("version")
+	public String getVersion() {
+		return "1.0";
+	}
 	
 	@GET
 	@Path("{" + KUNDEN_ID_PATH_PARAM + ":[1-9][0-9]*}")
