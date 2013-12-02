@@ -2,16 +2,17 @@ package de.shop.bestellverwaltung.domain;
 
 import java.io.Serializable;
 import java.net.URI;
-import java.util.List;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 import de.shop.kundenverwaltung.domain.AbstractKunde;
 
+/**
+ * @author <a href="mailto:Juergen.Zimmermann@HS-Karlsruhe.de">J&uuml;rgen Zimmermann</a>
+ */
 @XmlRootElement
 public class Bestellung implements Serializable {
-
 	private static final long serialVersionUID = 1618359234119003714L;
 	
 	private Long id;
@@ -19,9 +20,6 @@ public class Bestellung implements Serializable {
 	
 	@XmlTransient
 	private AbstractKunde kunde;
-	
-	@XmlTransient
-	private List<Position> positionen;
 	
 	private URI kundeUri;
 	
@@ -49,24 +47,13 @@ public class Bestellung implements Serializable {
 	}
 	public void setKundeUri(URI kundeUri) {
 		this.kundeUri = kundeUri;
-	}	
-	public List<Position> getPosition() {
-		return positionen;
 	}
-	public void setPosition(List<Position> positionen) {
-		this.positionen = positionen;
-	}
-	
 	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + (ausgeliefert ? 1231 : 1237);
-		result = prime * result
-				+ ((positionen == null) ? 0 : positionen.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((kunde == null) ? 0 : kunde.hashCode());
 		return result;
 	}
 	@Override
@@ -77,31 +64,18 @@ public class Bestellung implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Bestellung other = (Bestellung) obj;
-		if (ausgeliefert != other.ausgeliefert)
-			return false;
-		if (positionen == null) {
-			if (other.positionen != null)
-				return false;
-		} else if (!positionen.equals(other.positionen))
-			return false;
+		final Bestellung other = (Bestellung) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		if (kunde == null) {
-			if (other.kunde != null)
-				return false;
-		} else if (!kunde.equals(other.kunde))
+		}
+		else if (!id.equals(other.id))
 			return false;
 		return true;
 	}
 	
 	@Override
 	public String toString() {
-		return "Bestellung [id=" + id + ", ausgeliefert=" + ausgeliefert
-				+ ", kunde=" + kunde + ", bestellPosition=" + positionen
-				+ ", kundeUri=" + kundeUri + "]";
+		return "Bestellung [id=" + id + ", ausgeliefert=" + ausgeliefert + ", kundeUri=" + kundeUri + "]";
 	}
 }
