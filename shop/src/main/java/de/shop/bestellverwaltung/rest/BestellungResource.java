@@ -87,7 +87,7 @@ public class BestellungResource {
 //					final URI artikelUri = artikelResource.getUriArtikel(bestellung.getPosition().getArtikel(), uriInfo);
 //					bestellung.setArtikelUri(artikelUri);
 //				}
-			
+//			
 	
 	
 	private Link[] getTransitionalLinks(Bestellung bestellung, UriInfo uriInfo) {

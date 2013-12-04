@@ -8,6 +8,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 import de.shop.kundenverwaltung.domain.AbstractKunde;
+import de.shop.bestellverwaltung.domain.Posten;
 
 @XmlRootElement
 public class Bestellung implements Serializable {
@@ -15,11 +16,10 @@ public class Bestellung implements Serializable {
 private static final long serialVersionUID = 1618359234119003714L;
 	
 	private Long id;
-	private boolean ausgeliefert;
 	
-	//private URI artikelUri;
+	private boolean ausgeliefert;	
 	
-	
+	private URI artikelUri;	
 	
 	@XmlTransient
 	private AbstractKunde kunde;
@@ -67,6 +67,21 @@ private static final long serialVersionUID = 1618359234119003714L;
 
 	public void setKundeUri(URI kundeUri) {
 		this.kundeUri = kundeUri;
+	}
+
+	public URI getArtikelUri() {
+		return artikelUri;
+	}
+
+	public void setArtikelUri(URI artikelUri) {
+		this.artikelUri = artikelUri;
+	}
+
+	@Override
+	public String toString() {
+		return "Bestellung [id=" + id + ", ausgeliefert=" + ausgeliefert
+				+ ", artikelUri=" + artikelUri + ", kunde=" + kunde
+				+ ", posten=" + posten + ", kundeUri=" + kundeUri + "]";
 	}
 	
 	
