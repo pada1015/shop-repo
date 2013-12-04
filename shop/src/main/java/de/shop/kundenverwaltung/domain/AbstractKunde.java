@@ -2,6 +2,7 @@ package de.shop.kundenverwaltung.domain;
 
 import java.io.Serializable;
 import java.net.URI;
+import java.util.Date;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlRootElement;
@@ -30,6 +31,7 @@ import de.shop.bestellverwaltung.domain.Bestellung;
 	private String nachname;
 	private String email;
 	private Adresse adresse;
+	private Date seit;
 	
 	@XmlTransient
 	private List<Bestellung> bestellungen;
@@ -103,5 +105,11 @@ import de.shop.bestellverwaltung.domain.Bestellung;
 	public String toString() {
 		return "AbstractKunde [id=" + id + ", nachname=" + nachname + ", email=" + email
 			   + ", bestellungenUri=" + bestellungenUri + "]";
+	}
+	public Date getSeit() {
+		return seit;
+	}
+	public void setSeit(Date seit) {
+		this.seit = seit;
 	}
 }
