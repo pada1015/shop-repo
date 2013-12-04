@@ -100,6 +100,4 @@ public class BestellungResource {
 	public URI getUriBestellung(Bestellung bestellung, UriInfo uriInfo) {
 		return uriHelper.getUri(BestellungResource.class, "findBestellungById", bestellung.getId(), uriInfo);
 	}
-	
-
 }

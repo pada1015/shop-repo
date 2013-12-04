@@ -38,6 +38,12 @@ import de.shop.bestellverwaltung.domain.Bestellung;
 	
 	private URI bestellungenUri;
 
+	public Date getSeit() {
+		return seit;
+	}
+	public void setSeit(Date seit) {
+		this.seit = seit;
+	}
 	public Long getId() {
 		return id;
 	}
@@ -68,7 +74,6 @@ import de.shop.bestellverwaltung.domain.Bestellung;
 	public void setBestellungen(List<Bestellung> bestellungen) {
 		this.bestellungen = bestellungen;
 	}
-
 	public URI getBestellungenUri() {
 		return bestellungenUri;
 	}
@@ -79,10 +84,18 @@ import de.shop.bestellverwaltung.domain.Bestellung;
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((adresse == null) ? 0 : adresse.hashCode());
+		result = prime * result
+				+ ((bestellungen == null) ? 0 : bestellungen.hashCode());
+		result = prime * result
+				+ ((bestellungenUri == null) ? 0 : bestellungenUri.hashCode());
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result
+				+ ((nachname == null) ? 0 : nachname.hashCode());
+		result = prime * result + ((seit == null) ? 0 : seit.hashCode());
 		return result;
 	}
-	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -91,25 +104,49 @@ import de.shop.bestellverwaltung.domain.Bestellung;
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		final AbstractKunde other = (AbstractKunde) obj;
+		AbstractKunde other = (AbstractKunde) obj;
+		if (adresse == null) {
+			if (other.adresse != null)
+				return false;
+		} else if (!adresse.equals(other.adresse))
+			return false;
+		if (bestellungen == null) {
+			if (other.bestellungen != null)
+				return false;
+		} else if (!bestellungen.equals(other.bestellungen))
+			return false;
+		if (bestellungenUri == null) {
+			if (other.bestellungenUri != null)
+				return false;
+		} else if (!bestellungenUri.equals(other.bestellungenUri))
+			return false;
 		if (email == null) {
 			if (other.email != null)
 				return false;
-		}
-		else if (!email.equals(other.email))
+		} else if (!email.equals(other.email))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (nachname == null) {
+			if (other.nachname != null)
+				return false;
+		} else if (!nachname.equals(other.nachname))
+			return false;
+		if (seit == null) {
+			if (other.seit != null)
+				return false;
+		} else if (!seit.equals(other.seit))
 			return false;
 		return true;
 	}
-	
 	@Override
 	public String toString() {
-		return "AbstractKunde [id=" + id + ", nachname=" + nachname + ", email=" + email
-			   + ", bestellungenUri=" + bestellungenUri + "]";
-	}
-	public Date getSeit() {
-		return seit;
-	}
-	public void setSeit(Date seit) {
-		this.seit = seit;
+		return "AbstractKunde [id=" + id + ", nachname=" + nachname
+				+ ", email=" + email + ", adresse=" + adresse + ", seit="
+				+ seit + ", bestellungen=" + bestellungen
+				+ ", bestellungenUri=" + bestellungenUri + "]";
 	}
 }

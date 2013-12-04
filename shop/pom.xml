@@ -90,6 +90,15 @@
 				-->
 			</properties>
 		</developer>
+		<developer>
+			<id>Rosen.Vasilev</id>
+			<name>Rosen Vasilev</name>
+			<email>varo1012@hs-karlsruhe.de</email><url>http://www.iwi.hs-karlsruhe.de</url>
+			<organization>Hochschule Karlsruhe</organization><organizationUrl>http://www.iwi.hs-karlsruhe.de</organizationUrl>
+			<roles>
+				<role>Student</role></roles>
+			<timezone>+1</timezone>
+		</developer>
 	</developers>
 	
 	<mailingLists>
