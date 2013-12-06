@@ -127,17 +127,22 @@ public final class Mock {
 		bestellung.setAusgeliefert(false);
 		bestellung.setKunde(kunde);
 		
+		List<Posten> posten = new ArrayList<Posten>();
+		
 		Posten p = new Posten();
 		p.setAnzahl(id);
 		p.setArtikel(findArtikelById(id));
-		List<Posten> posten = new ArrayList<Posten>();
+		
+		
+		
+		
 		posten.add(p);
 		bestellung.setPosten(posten);
 						
 		return bestellung;
 	}
 
-	public static AbstractKunde createKunde(AbstractKunde kunde) {
+	public static <T extends AbstractKunde> T createKunde(T kunde) {
 		// Neue IDs fuer Kunde und zugehoerige Adresse
 		// Ein neuer Kunde hat auch keine Bestellungen
 		final String nachname = kunde.getNachname();

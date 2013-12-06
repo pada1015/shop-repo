@@ -24,7 +24,7 @@ private static final long serialVersionUID = 1618359234119003714L;
 	@XmlTransient
 	private AbstractKunde kunde;
 	
-	@XmlTransient
+	//FIXME: @XmlTransient
 	private List<Posten> posten;
 	
 	private URI kundeUri;
