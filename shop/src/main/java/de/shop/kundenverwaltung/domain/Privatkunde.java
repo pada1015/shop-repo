@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Privatkunde extends AbstractKunde {
 	private static final long serialVersionUID = -3177911520687689458L;
 	
-	private Set<HobbyType> hobbies;	
+	private Set<HobbyType> hobbies;
 
 	public Set<HobbyType> getHobbies() {
 		return hobbies;

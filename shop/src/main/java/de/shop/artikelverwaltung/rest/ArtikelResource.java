@@ -22,16 +22,21 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import de.shop.artikelverwaltung.domain.Artikel;
-import de.shop.util.Mock;
+import de.shop.artikelverwaltung.service.ArtikelService;
+import de.shop.util.interceptor.Log;
 import de.shop.util.rest.UriHelper;
 
 @Path("/artikel")
 @Produces({ APPLICATION_JSON, APPLICATION_XML + ";qs=0.75", TEXT_XML + ";qs=0.5" })
 @Consumes
 @RequestScoped
+@Log
 public class ArtikelResource {
 	
-	@Context
+	@Inject
+	private ArtikelService as;
+	
+	@Inject
 	private UriInfo uriInfo;
 	
 	@Inject
@@ -39,9 +44,9 @@ public class ArtikelResource {
 	
 	@GET
 	@Path("{id:[1-9][0-9]*}")
-	public Response findArtikelById(@PathParam("id") Long id) {
+	public Response findArtikelById(@PathParam("id") Long id, @Context UriInfo uriInfo) {
 		
-		final Artikel artikel = Mock.findArtikelById(id);
+		final Artikel artikel = as.findArtikelById(id);
 		
 		setStructuralLinks(artikel, uriInfo);
 		// Link-Header setzen
@@ -73,7 +78,7 @@ public class ArtikelResource {
 	@Consumes({APPLICATION_JSON, APPLICATION_XML, TEXT_XML })
 	@Produces
 	public Response createArtikel(Artikel artikel) {
-		artikel = Mock.createArtikel(artikel);
+		artikel = as.createArtikel(artikel);
 		return Response.created(getUriArtikel(artikel, uriInfo))
 			           .build();
 	}
@@ -82,6 +87,6 @@ public class ArtikelResource {
 	@Consumes({APPLICATION_JSON, APPLICATION_XML, TEXT_XML })
 	@Produces
 	public void updateArtikel(Artikel artikel) {
-		Mock.updateArtikel(artikel);
+		as.updateArtikel(artikel);
 	}
 }

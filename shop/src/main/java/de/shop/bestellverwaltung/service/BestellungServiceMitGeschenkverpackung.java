@@ -4,6 +4,7 @@ import java.lang.invoke.MethodHandles;
 import java.util.List;
 import java.util.Locale;
 
+import javax.enterprise.context.Dependent;
 import javax.decorator.Decorator;
 import javax.decorator.Delegate;
 import javax.enterprise.inject.Any;
@@ -15,6 +16,7 @@ import de.shop.bestellverwaltung.domain.Bestellung;
 import de.shop.kundenverwaltung.domain.AbstractKunde;
 
 @Decorator
+@Dependent
 public abstract class BestellungServiceMitGeschenkverpackung implements BestellungService {
 	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass());
 	
@@ -23,25 +25,16 @@ public abstract class BestellungServiceMitGeschenkverpackung implements Bestellu
 	@Any
 	private BestellungService bs;
 
-	/**
-	 * {inheritDoc}
-	 */
 	@Override
 	public Bestellung findBestellungById(Long id) {
 		return bs.findBestellungById(id);
 	}
 
-	/**
-	 * {inheritDoc}
-	 */
 	@Override
 	public List<Bestellung> findBestellungenByKunde(AbstractKunde kunde) {
 		return bs.findBestellungenByKunde(kunde);
 	}
 
-	/**
-	 * {inheritDoc}
-	 */
 	@Override
 	public Bestellung createBestellung(Bestellung bestellung, AbstractKunde kunde, Locale locale) {
 		LOGGER.warn("Geschenkverpackung noch nicht implementiert");

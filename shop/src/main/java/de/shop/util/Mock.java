@@ -23,19 +23,17 @@ import de.shop.kundenverwaltung.domain.Privatkunde;
  * Emulation des Anwendungskerns
  */
 public final class Mock {
+	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass());
+	
 	private static final int MAX_ID = 99;
 	private static final int MAX_KUNDEN = 8;
 	private static final int MAX_BESTELLUNGEN = 4;
 	
-	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass());
 	private static final int JAHR = 2001;
 	private static final int MONAT = 0; // bei Calendar werden die Monate von 0 bis 11 gezaehlt
 	private static final int TAG = 31;  // bei Calendar die Monatstage ab 1 gezaehlt
-	
-
 
 	public static AbstractKunde findKundeById(Long id) {
-		
 		
 		if (id > MAX_ID) {
 			return null;
@@ -43,8 +41,11 @@ public final class Mock {
 		
 		final AbstractKunde kunde = id % 2 == 1 ? new Privatkunde() : new Firmenkunde();
 		kunde.setId(id);
-		kunde.setNachname("Nachname" + id);
+		kunde.setNachname("Nachname");
 		kunde.setEmail("" + id + "@hska.de");
+		final GregorianCalendar seitCal = new GregorianCalendar(JAHR, MONAT, TAG);
+		final Date seit = seitCal.getTime();
+		kunde.setSeit(seit);
 		
 		final Adresse adresse = new Adresse();
 		adresse.setId(id + 1);        // andere ID fuer die Adresse
@@ -61,6 +62,37 @@ public final class Mock {
 			privatkunde.setHobbies(hobbies);
 		}
 		
+		return kunde;
+	}
+	
+	public static AbstractKunde findKundeByEmail(String email) {
+		if (email.startsWith("x")) {
+			return null;
+		}
+		
+		final AbstractKunde kunde = email.length() % 2 == 1 ? new Privatkunde() : new Firmenkunde();
+		kunde.setId(Long.valueOf(email.length()));
+		kunde.setNachname("Nachname");
+		kunde.setEmail(email);
+		final GregorianCalendar seitCal = new GregorianCalendar(JAHR, MONAT, TAG);
+		final Date seit = seitCal.getTime();
+		kunde.setSeit(seit);
+		
+		final Adresse adresse = new Adresse();
+		adresse.setId(kunde.getId() + 1);        // andere ID fuer die Adresse
+		adresse.setPlz("12345");
+		adresse.setOrt("Testort");
+		adresse.setKunde(kunde);
+		kunde.setAdresse(adresse);
+		
+		if (kunde.getClass().equals(Privatkunde.class)) {
+			final Privatkunde privatkunde = (Privatkunde) kunde;
+			final Set<HobbyType> hobbies = new HashSet<>();
+			hobbies.add(HobbyType.LESEN);
+			hobbies.add(HobbyType.REISEN);
+			privatkunde.setHobbies(hobbies);
+		}
+
 		return kunde;
 	}
 
@@ -85,7 +117,6 @@ public final class Mock {
 		return kunden;
 	}
 	
-
 	public static List<Bestellung> findBestellungenByKunde(AbstractKunde kunde) {
 		// Beziehungsgeflecht zwischen Kunde und Bestellungen aufbauen
 		final int anzahl = kunde.getId().intValue() % MAX_BESTELLUNGEN + 1;  // 1, 2, 3 oder 4 Bestellungen
@@ -133,9 +164,6 @@ public final class Mock {
 		p.setAnzahl(id);
 		p.setArtikel(findArtikelById(id));
 		
-		
-		
-		
 		posten.add(p);
 		bestellung.setPosten(posten);
 						
@@ -152,81 +180,54 @@ public final class Mock {
 		adresse.setKunde(kunde);
 		kunde.setBestellungen(null);
 		
-		System.out.println("Neuer Kunde: " + kunde);
+		LOGGER.infof("Neuer Kunde: %s", kunde);
 		return kunde;
 	}
 
 	public static void updateKunde(AbstractKunde kunde) {
-		System.out.println("Aktualisierter Kunde: " + kunde);
+		LOGGER.infof("Aktualisierter Kunde: %s", kunde);
 	}
 
 	public static void deleteKunde(Long kundeId) {
-		System.out.println("Kunde mit ID=" + kundeId + " geloescht");
+		LOGGER.infof("Kunde mit ID=" + kundeId + " geloescht");
 	}
 	
 	public static Artikel findArtikelById(Long id) {
 
         final Artikel artikel = new Artikel();
         artikel.setId(id);
-        artikel.setName("Artikel" + id.toString());
-        artikel.setEinzelPrice((long) artikel.getName().length() * 2);
+        artikel.setBezeichnung("Artikel" + id.toString());
+        artikel.setPrice((long) artikel.getBezeichnung().length() * 2);
         
         return artikel;
-}
+	}
 
-public static Artikel createArtikel(Artikel artikel) {
-        final String name = artikel.getName();
+	public static Artikel createArtikel(Artikel artikel) {
+        final String name = artikel.getBezeichnung();
         artikel.setId(Long.valueOf(name.length()));
-        artikel.setEinzelPrice((long) artikel.getName().length() * 2);
+        artikel.setPrice((long) artikel.getBezeichnung().length() * 2);
         
+        LOGGER.infof("Neuer Artikel: " + artikel);
         
-        System.out.println("Neuer Artikel: " + artikel);
         return artikel;
-}
+	}
 
-public static void updateArtikel(Artikel artikel) {
+	public static void updateArtikel(Artikel artikel) {
         System.out.println("Aktualisierter Artikel: " + artikel);
-}
-
-public static AbstractKunde findKundeByEmail(String email) {
-	if (email.startsWith("x")) {
-		return null;
 	}
-	
-	final AbstractKunde kunde = email.length() % 2 == 1 ? new Privatkunde() : new Firmenkunde();
-	kunde.setId(Long.valueOf(email.length()));
-	kunde.setNachname("Nachname");
-	kunde.setEmail(email);
-	final GregorianCalendar seitCal = new GregorianCalendar(JAHR, MONAT, TAG);
-	final Date seit = seitCal.getTime();
-	kunde.setSeit(seit);
-	
-	final Adresse adresse = new Adresse();
-	adresse.setId(kunde.getId() + 1);        // andere ID fuer die Adresse
-	adresse.setPlz("12345");
-	adresse.setOrt("Testort");
-	adresse.setKunde(kunde);
-	kunde.setAdresse(adresse);
-	
-	if (kunde.getClass().equals(Privatkunde.class)) {
-		final Privatkunde privatkunde = (Privatkunde) kunde;
-		final Set<HobbyType> hobbies = new HashSet<>();
-		hobbies.add(HobbyType.LESEN);
-		hobbies.add(HobbyType.REISEN);
-		privatkunde.setHobbies(hobbies);
+		
+	public static void updateBestellung(Bestellung bestellung) {
+        System.out.println("Aktualisierte Bestellung: " + bestellung);
 	}
-	
-	return kunde;
-}
 
-public static void deleteKunde(AbstractKunde kunde) {
-	LOGGER.infof("Geloeschter Kunde: %s", kunde);
-}
+	public static void deleteKunde(AbstractKunde kunde) {
+		LOGGER.infof("Geloeschter Kunde: %s", kunde);
+	}
 
-public static Bestellung createBestellung(Bestellung bestellung, AbstractKunde kunde) {
-	LOGGER.infof("Neue Bestellung: %s fuer Kunde: %s", bestellung, kunde);
-	return bestellung;
-}
+	public static Bestellung createBestellung(Bestellung bestellung, AbstractKunde kunde) {
+		LOGGER.infof("Neue Bestellung: %s fuer Kunde: %s", bestellung, kunde);
+		return bestellung;
+	}
 
 	private Mock() { /**/ }
 }
