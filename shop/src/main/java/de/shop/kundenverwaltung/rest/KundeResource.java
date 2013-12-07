@@ -114,11 +114,12 @@ public class KundeResource {
 			                    .rel(UPDATE_LINK)
 			                    .build();
 		
-		final Link remove = Link.fromUri(uriHelper.getUri(KundeResource.class, "deleteKunde", kunde.getId(), uriInfo))
+		final Link remove = Link.fromUri(uriHelper.getUri(KundeResource.class, "deleteKunde",
+				kunde.getId(), uriInfo))
 		                        .rel(REMOVE_LINK)
 		                        .build();
 		
-		return new Link[] { self, list, add, update, remove };
+		return new Link[] {self, list, add, update, remove};
 	}
 
 	
@@ -128,7 +129,8 @@ public class KundeResource {
 	
 	@GET
 	public Response findKunden(@QueryParam(KUNDEN_NACHNAME_QUERY_PARAM)
-   	                           @Pattern(regexp = AbstractKunde.NACHNAME_PATTERN, message = "{kunde.nachname.pattern}")
+   	                           @Pattern(regexp = AbstractKunde.NACHNAME_PATTERN, 
+   	                           message = "{kunde.nachname.pattern}")
 							   String nachname,
 							   @QueryParam(KUNDEN_EMAIL_QUERY_PARAM)
    	                           @Email(message = "{kunde.email}")
@@ -158,10 +160,11 @@ public class KundeResource {
 			for (AbstractKunde k : kunden) {
 				setStructuralLinks(k, uriInfo);
 			}
-			// FIXME JDK 8 hat Lambda-Ausdruecke, aber Proxy-Klassen von Weld funktionieren noch nicht mit Lambda-Ausdruecken
+			// FIXME JDK 8 hat Lambda-Ausdruecke, aber Proxy-Klassen von Weld 
+			//funktionieren noch nicht mit Lambda-Ausdruecken
 			//kunden.parallelStream()
 			//      .forEach(k -> setStructuralLinks(k, uriInfo));
-			entity = new GenericEntity<List<? extends AbstractKunde>>(kunden){};
+			entity = new GenericEntity<List<? extends AbstractKunde>>(kunden) {};
 			links = getTransitionalLinksKunden(kunden, uriInfo);
 		}
 		else if (kunde != null) {
@@ -205,7 +208,7 @@ public class KundeResource {
 			//            .forEach(b -> bestellungResource.setStructuralLinks(b, uriInfo));
 		}
 		
-		return Response.ok(new GenericEntity<List<Bestellung>>(bestellungen){})
+		return Response.ok(new GenericEntity<List<Bestellung>>(bestellungen) {})
                        .links(getTransitionalLinksBestellungen(bestellungen, kunde, uriInfo))
                        .build();
 	}

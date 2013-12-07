@@ -217,7 +217,7 @@ public final class Mock {
 	}
 		
 	public static void updateBestellung(Bestellung bestellung) {
-        System.out.println("Aktualisierte Bestellung: " + bestellung);
+		LOGGER.infof("Aktualisierte Bestellung: " + bestellung);
 	}
 
 	public static void deleteKunde(AbstractKunde kunde) {

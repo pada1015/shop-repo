@@ -64,21 +64,24 @@ public class Artikel implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Artikel other = (Artikel) obj;
+		final Artikel other = (Artikel) obj;
 		if (artikelUri == null) {
 			if (other.artikelUri != null)
 				return false;
-		} else if (!artikelUri.equals(other.artikelUri))
+		}
+		else if (!artikelUri.equals(other.artikelUri))
 			return false;
 		if (bezeichnung == null) {
 			if (other.bezeichnung != null)
 				return false;
-		} else if (!bezeichnung.equals(other.bezeichnung))
+		} 
+		else if (!bezeichnung.equals(other.bezeichnung))
 			return false;
 		if (id == null) {
 			if (other.id != null)
 				return false;
-		} else if (!id.equals(other.id))
+		} 
+		else if (!id.equals(other.id))
 			return false;
 		if (Double.doubleToLongBits(price) != Double
 				.doubleToLongBits(other.price))

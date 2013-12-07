@@ -8,7 +8,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 import de.shop.kundenverwaltung.domain.AbstractKunde;
-import de.shop.bestellverwaltung.domain.Posten;
 
 @XmlRootElement
 public class Bestellung implements Serializable {
@@ -100,33 +99,38 @@ private static final long serialVersionUID = 1618359234119003714L;
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Bestellung other = (Bestellung) obj;
+		final Bestellung other = (Bestellung) obj;
 		if (artikelUri == null) {
 			if (other.artikelUri != null)
 				return false;
-		} else if (!artikelUri.equals(other.artikelUri))
+		} 
+		else if (!artikelUri.equals(other.artikelUri))
 			return false;
 		if (ausgeliefert != other.ausgeliefert)
 			return false;
 		if (id == null) {
 			if (other.id != null)
 				return false;
-		} else if (!id.equals(other.id))
+		} 
+		else if (!id.equals(other.id))
 			return false;
 		if (kunde == null) {
 			if (other.kunde != null)
 				return false;
-		} else if (!kunde.equals(other.kunde))
+		}
+		else if (!kunde.equals(other.kunde))
 			return false;
 		if (kundeUri == null) {
 			if (other.kundeUri != null)
 				return false;
-		} else if (!kundeUri.equals(other.kundeUri))
+		}
+		else if (!kundeUri.equals(other.kundeUri))
 			return false;
 		if (posten == null) {
 			if (other.posten != null)
 				return false;
-		} else if (!posten.equals(other.posten))
+		}
+		else if (!posten.equals(other.posten))
 			return false;
 		return true;
 	}

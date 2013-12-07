@@ -4,12 +4,11 @@ import static de.shop.util.Constants.ADD_LINK;
 import static de.shop.util.Constants.SELF_LINK;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static javax.ws.rs.core.MediaType.APPLICATION_XML;
-import static javax.ws.rs.core.MediaType.TEXT_PLAIN;
 import static javax.ws.rs.core.MediaType.TEXT_XML;
-import static javax.ws.rs.core.Response.Status.INTERNAL_SERVER_ERROR;
 
 import java.net.URI;
 import java.util.Collection;
+
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -25,9 +24,10 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import de.shop.artikelverwaltung.rest.ArtikelResource;
-import de.shop.bestellverwaltung.domain.Posten;
 import de.shop.bestellverwaltung.domain.Bestellung;
+import de.shop.bestellverwaltung.domain.Posten;
 import de.shop.bestellverwaltung.service.BestellungService;
+import de.shop.bestellverwaltung.service.BestellungServiceImpl;
 import de.shop.kundenverwaltung.domain.AbstractKunde;
 import de.shop.kundenverwaltung.rest.KundeResource;
 import de.shop.util.Mock;
@@ -49,6 +49,9 @@ public class BestellungResource {
 	
 	@Inject
 	private BestellungService bs;
+	
+	@Inject
+	private BestellungServiceImpl bsi;
 	
 	@Inject
 	private KundeResource kr;
@@ -107,29 +110,30 @@ public class BestellungResource {
 		return uriHelper.getUri(BestellungResource.class, "findBestellungById", bestellung.getId(), uriInfo);
 	}
 	
-	@GET
-	@Path("{id:[1-9][0-9]*}/lieferungen")
-	public Response findLieferungenByBestellungId(@PathParam("id") Long id) {
-		// Diese Methode ist bewusst NICHT implementiert, um zu zeigen,
-		// wie man Methodensignaturen an der Schnittstelle fuer andere
-		// Teammitglieder schon mal bereitstellt, indem einfach ein "Internal
-		// Server Error (500)" produziert wird.
-		// Die Kolleg/inn/en koennen nun weiterarbeiten, waehrend man selbst
-		// gerade keine Zeit hat, weil andere Aufgaben Vorrang haben.
-		
-		// TODO findLieferungenByBestellungId noch nicht implementiert
-		return Response.status(INTERNAL_SERVER_ERROR)
-			       .entity("findLieferungenByBestellungId: NOT YET IMPLEMENTED")
-			       .type(TEXT_PLAIN)
-			       .build();
-	}
+	//TODO
+//	@GET
+//	@Path("{id:[1-9][0-9]*}/lieferungen")
+//	public Response findLieferungenByBestellungId(@PathParam("id") Long id) {
+//		// Diese Methode ist bewusst NICHT implementiert, um zu zeigen,
+//		// wie man Methodensignaturen an der Schnittstelle fuer andere
+//		// Teammitglieder schon mal bereitstellt, indem einfach ein "Internal
+//		// Server Error (500)" produziert wird.
+//		// Die Kolleg/inn/en koennen nun weiterarbeiten, waehrend man selbst
+//		// gerade keine Zeit hat, weil andere Aufgaben Vorrang haben.
+//		
+//		// TODO findLieferungenByBestellungId noch nicht implementiert
+//		return Response.status(INTERNAL_SERVER_ERROR)
+//			       .entity("findLieferungenByBestellungId: NOT YET IMPLEMENTED")
+//			       .type(TEXT_PLAIN)
+//			       .build();
+//	}
 	
 	@POST
 	@Consumes({APPLICATION_JSON, APPLICATION_XML, TEXT_XML })
 	@Produces
 	public Response createBestellung(Bestellung bestellung) {
 		AbstractKunde kunde = bestellung.getKunde();
-		bestellung = Mock.createBestellung(bestellung, kunde);
+		bestellung = bsi.createBestellung(bestellung, kunde);
 		return Response.created(getUriBestellung(bestellung, uriInfo))
 			           .build();
 	}
@@ -138,6 +142,6 @@ public class BestellungResource {
 	@Consumes({APPLICATION_JSON, APPLICATION_XML, TEXT_XML })
 	@Produces
 	public void updateBestellung(Bestellung bestellung) {
-		Mock.updateBestellung(bestellung);
+		bsi.updateBestellung(bestellung);
 	}
 }
