@@ -131,17 +131,15 @@ public final class Mock {
 		return bestellungen;
 	}
 	
-	public static List<Posten> findPostenByBestellung(Bestellung bestellung) {
+	public static List<Posten> findPostenByBestellung(long id) {
 		// Beziehungsgeflecht zwischen Bestellung und Posten aufbauen
-		final int anzahl = bestellung.getId().intValue() % MAX_BESTELLUNGEN + 1;  // 1, 2, 3 oder 4 Bestellungen
-		final List<Posten> posten = new ArrayList<>(anzahl);
-		for (int i = 1; i <= anzahl; i++) {
+		final List<Posten> posten = new ArrayList<>();
+		for (long i = 1; i <= id; i++) {
 			final Posten post = new Posten();
-			post.setAnzahl(anzahl);
-			post.setArtikel(Mock.findArtikelById((long)anzahl));
-			posten.add(post);			
+			post.setAnzahl(id);
+			post.setArtikel(Mock.findArtikelById(id));
+			posten.add(post);
 		}
-		bestellung.setPosten(posten);
 		
 		return posten;
 	}
@@ -150,25 +148,14 @@ public final class Mock {
 		if (id > MAX_ID) {
 			return null;
 		}
-
-		final AbstractKunde kunde = findKundeById(id + 1);  // andere ID fuer den Kunden
-
+		
+		final AbstractKunde kunde = findKundeById(id);  // andere ID fuer den Kunden
+		final List<Posten> posten = findPostenByBestellung(id);	
 		final Bestellung bestellung = new Bestellung();
+		
 		bestellung.setId(id);
 		bestellung.setAusgeliefert(false);
 		bestellung.setKunde(kunde);
-		
-		List<Posten> posten = new ArrayList<Posten>();
-		
-		Artikel artikel = new Artikel();
-		artikel.setBezeichnung("Artikel");
-		artikel.setId(id);
-		artikel.setPrice(10.5);
-		Posten p = new Posten();
-		p.setAnzahl(id);
-		p.setArtikel(artikel);
-		
-		posten.add(p);
 		bestellung.setPosten(posten);
 						
 		return bestellung;

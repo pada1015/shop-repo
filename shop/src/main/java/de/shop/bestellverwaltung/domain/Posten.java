@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.net.URI;
 
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 import de.shop.artikelverwaltung.domain.Artikel;
 
@@ -12,12 +11,9 @@ import de.shop.artikelverwaltung.domain.Artikel;
 public class Posten implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
-
-	private long id;
 	
 	private long anzahl;
 	
-	@XmlTransient
 	private Artikel artikel;
 	
 	private URI artikelUri;
@@ -46,14 +42,6 @@ public class Posten implements Serializable {
 		this.artikelUri = artikelUri;
 	}
 
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -62,7 +50,6 @@ public class Posten implements Serializable {
 		result = prime * result + ((artikel == null) ? 0 : artikel.hashCode());
 		result = prime * result
 				+ ((artikelUri == null) ? 0 : artikelUri.hashCode());
-		result = prime * result + (int) (id ^ (id >>> 32));
 		return result;
 	}
 
@@ -87,14 +74,14 @@ public class Posten implements Serializable {
 				return false;
 		} else if (!artikelUri.equals(other.artikelUri))
 			return false;
-		if (id != other.id)
-			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "Posten [id=" + id + ", anzahl=" + anzahl + ", artikel="
-				+ artikel + ", artikelUri=" + artikelUri + "]";
+		return "Posten [anzahl=" + anzahl + ", artikel=" + artikel
+				+ ", artikelUri=" + artikelUri + "]";
 	}
+	
+	
 }

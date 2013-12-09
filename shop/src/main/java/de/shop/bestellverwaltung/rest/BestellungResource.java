@@ -1,6 +1,5 @@
 package de.shop.bestellverwaltung.rest;
 
-import static de.shop.util.Constants.ADD_LINK;
 import static de.shop.util.Constants.SELF_LINK;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static javax.ws.rs.core.MediaType.APPLICATION_XML;
@@ -23,7 +22,6 @@ import javax.ws.rs.core.Link;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
-import de.shop.artikelverwaltung.domain.Artikel;
 import de.shop.artikelverwaltung.rest.ArtikelResource;
 import de.shop.bestellverwaltung.domain.Bestellung;
 import de.shop.bestellverwaltung.domain.Posten;
@@ -65,37 +63,31 @@ public class BestellungResource {
 	@GET
 	@Path("{id:[1-9][0-9]*}")
 	public Response findBestellungById(@PathParam("id") Long id) {
-		// TODO Anwendungskern statt Mock, Verwendung von Locale
+
 		final Bestellung bestellung = bs.findBestellungById(id);		
-		
 		setStructuralLinks(bestellung, uriInfo);
 		
 		// Link-Header setzen
 		final Response response = Response.ok(bestellung)
                                           .links(getTransitionalLinks(bestellung, uriInfo))
-                                          .build();
-		
+                                          .build();		
 		return response;
-
 	}
 	
 	public void setStructuralLinks(Bestellung bestellung, UriInfo uriInfo) {
 		// URI fuer Kunde setzen
 		final AbstractKunde kunde = bestellung.getKunde();
+		final List<Posten> posten = bestellung.getPosten();
 		if (kunde != null) {
 			final URI kundeUri = kr.getUriKunde(bestellung.getKunde(), uriInfo);
 			bestellung.setKundeUri(kundeUri);
-		}
-		
-			// URI fuer Artikel setzen
-		final List<Posten> posten = bestellung.getPosten();
-		if (posten != null && !posten.isEmpty()) {
-			for (Posten p : posten) {
-				final Artikel a = p.getArtikel();
-				final URI artikelUri = ar.getUriArtikel(a, uriInfo);
-				a.setArtikelUri(artikelUri);
-				p.setArtikel(a);
-			}
+		}		
+		// URI fuer Artikel setzen
+		for (Posten p : posten) {
+			if (p != null) {
+				final URI artikelURI = ar.getUriArtikel(p.getArtikel(), uriInfo);
+				p.setArtikelUri(artikelURI);
+        	}
 		}
 	}
 			
@@ -103,10 +95,10 @@ public class BestellungResource {
 		final Link self = Link.fromUri(getUriBestellung(bestellung, uriInfo))
                               .rel(SELF_LINK)
                               .build();
-		final Link add = Link.fromUri(uriHelper.getUri(BestellungResource.class, uriInfo))
-                             .rel(ADD_LINK)
-                             .build();
-		return new Link[] { self, add };
+//		final Link add = Link.fromUri(uriHelper.getUri(BestellungResource.class, uriInfo))
+//                             .rel(ADD_LINK)
+//                             .build();
+		return new Link[] { self };
 	}
 	
 	public URI getUriBestellung(Bestellung bestellung, UriInfo uriInfo) {

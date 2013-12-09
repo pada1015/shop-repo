@@ -44,8 +44,7 @@ public class ArtikelResource {
 	@Path("{id:[1-9][0-9]*}")
 	  public Response findArtikelById(@PathParam("id") Long id, @Context UriInfo uriInfo) {
         
-        final Artikel artikel = as.findArtikelById(id);
-        
+        final Artikel artikel = as.findArtikelById(id);        
         setStructuralLinks(artikel, uriInfo);
         // Link-Header setzen
         final Response response = Response.ok(artikel)
