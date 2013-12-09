@@ -18,7 +18,7 @@ private static final long serialVersionUID = 1618359234119003714L;
 	
 	private boolean ausgeliefert;	
 	
-	private URI artikelUri;	
+	//private URI artikelUri;	
 	
 	@XmlTransient
 	private AbstractKunde kunde;
@@ -44,13 +44,13 @@ private static final long serialVersionUID = 1618359234119003714L;
 		this.ausgeliefert = ausgeliefert;
 	}
 
-	public URI getArtikelUri() {
-		return artikelUri;
-	}
-
-	public void setArtikelUri(URI artikelUri) {
-		this.artikelUri = artikelUri;
-	}
+//	public URI getArtikelUri() {
+//		return artikelUri;
+//	}
+//
+//	public void setArtikelUri(URI artikelUri) {
+//		this.artikelUri = artikelUri;
+//	}
 
 	public AbstractKunde getKunde() {
 		return kunde;
@@ -80,8 +80,6 @@ private static final long serialVersionUID = 1618359234119003714L;
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((artikelUri == null) ? 0 : artikelUri.hashCode());
 		result = prime * result + (ausgeliefert ? 1231 : 1237);
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((kunde == null) ? 0 : kunde.hashCode());
@@ -100,12 +98,7 @@ private static final long serialVersionUID = 1618359234119003714L;
 		if (getClass() != obj.getClass())
 			return false;
 		final Bestellung other = (Bestellung) obj;
-		if (artikelUri == null) {
-			if (other.artikelUri != null)
-				return false;
-		} 
-		else if (!artikelUri.equals(other.artikelUri))
-			return false;
+		
 		if (ausgeliefert != other.ausgeliefert)
 			return false;
 		if (id == null) {
@@ -138,7 +131,7 @@ private static final long serialVersionUID = 1618359234119003714L;
 	@Override
 	public String toString() {
 		return "Bestellung [id=" + id + ", ausgeliefert=" + ausgeliefert
-				+ ", artikelUri=" + artikelUri + ", kunde=" + kunde
+			 + ", kunde=" + kunde
 				+ ", posten=" + posten + ", kundeUri=" + kundeUri + "]";
 	}
 }

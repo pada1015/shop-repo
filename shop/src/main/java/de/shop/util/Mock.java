@@ -160,9 +160,13 @@ public final class Mock {
 		
 		List<Posten> posten = new ArrayList<Posten>();
 		
+		Artikel artikel = new Artikel();
+		artikel.setBezeichnung("Artikel");
+		artikel.setId(id);
+		artikel.setPrice(10.5);
 		Posten p = new Posten();
 		p.setAnzahl(id);
-		p.setArtikel(findArtikelById(id));
+		p.setArtikel(artikel);
 		
 		posten.add(p);
 		bestellung.setPosten(posten);
@@ -193,6 +197,10 @@ public final class Mock {
 	}
 	
 	public static Artikel findArtikelById(Long id) {
+		
+		if (id > MAX_ID) {
+			return null;
+		}
 
         final Artikel artikel = new Artikel();
         artikel.setId(id);
@@ -202,21 +210,24 @@ public final class Mock {
         return artikel;
 	}
 
-	public static Artikel createArtikel(Artikel artikel) {
-        final String name = artikel.getBezeichnung();
-        artikel.setId(Long.valueOf(name.length()));
-        artikel.setPrice((long) artikel.getBezeichnung().length() * 2);
-        
-        LOGGER.infof("Neuer Artikel: " + artikel);
-        
+	public static Artikel createArtikel(Artikel artikel) {		
+		
+		final long id = artikel.getBezeichnung().length();
+		artikel.setId(id);
+		LOGGER.infof("Neuer Artikel: %s", artikel);        
         return artikel;
 	}
 
 	public static void updateArtikel(Artikel artikel) {
-        System.out.println("Aktualisierter Artikel: " + artikel);
+		final long id = artikel.getBezeichnung().length();
+		artikel.setId(id);
+		LOGGER.infof("Aktualisierter Artikel: " + artikel);
 	}
 		
 	public static void updateBestellung(Bestellung bestellung) {
+		final long id = 5;
+		bestellung.setId(id);
+		bestellung = findBestellungById(id);
 		LOGGER.infof("Aktualisierte Bestellung: " + bestellung);
 	}
 

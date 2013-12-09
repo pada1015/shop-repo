@@ -7,7 +7,7 @@ import static javax.ws.rs.core.MediaType.APPLICATION_XML;
 import static javax.ws.rs.core.MediaType.TEXT_XML;
 
 import java.net.URI;
-import java.util.Collection;
+import java.util.List;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -23,6 +23,7 @@ import javax.ws.rs.core.Link;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
+import de.shop.artikelverwaltung.domain.Artikel;
 import de.shop.artikelverwaltung.rest.ArtikelResource;
 import de.shop.bestellverwaltung.domain.Bestellung;
 import de.shop.bestellverwaltung.domain.Posten;
@@ -30,7 +31,6 @@ import de.shop.bestellverwaltung.service.BestellungService;
 import de.shop.bestellverwaltung.service.BestellungServiceImpl;
 import de.shop.kundenverwaltung.domain.AbstractKunde;
 import de.shop.kundenverwaltung.rest.KundeResource;
-import de.shop.util.Mock;
 import de.shop.util.interceptor.Log;
 import de.shop.util.rest.UriHelper;
 
@@ -67,6 +67,7 @@ public class BestellungResource {
 	public Response findBestellungById(@PathParam("id") Long id) {
 		// TODO Anwendungskern statt Mock, Verwendung von Locale
 		final Bestellung bestellung = bs.findBestellungById(id);		
+		
 		setStructuralLinks(bestellung, uriInfo);
 		
 		// Link-Header setzen
@@ -87,11 +88,13 @@ public class BestellungResource {
 		}
 		
 			// URI fuer Artikel setzen
-		final Collection<Posten> posten = bestellung.getPosten();
+		final List<Posten> posten = bestellung.getPosten();
 		if (posten != null && !posten.isEmpty()) {
 			for (Posten p : posten) {
-				final URI artikelUri = ar.getUriArtikel(p.getArtikel(), uriInfo);
-				p.setArtikelUri(artikelUri);
+				final Artikel a = p.getArtikel();
+				final URI artikelUri = ar.getUriArtikel(a, uriInfo);
+				a.setArtikelUri(artikelUri);
+				p.setArtikel(a);
 			}
 		}
 	}
