@@ -223,6 +223,7 @@ public final class Mock {
 	}
 
 	public static Bestellung createBestellung(Bestellung bestellung, AbstractKunde kunde) {
+		bestellung.setId(kunde.getId());
 		LOGGER.infof("Neue Bestellung: %s fuer Kunde: %s", bestellung, kunde);
 		return bestellung;
 	}

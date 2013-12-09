@@ -86,7 +86,7 @@ public class BestellungResource {
 		for (Posten p : posten) {
 			if (p != null) {
 				final URI artikelURI = ar.getUriArtikel(p.getArtikel(), uriInfo);
-				p.setArtikelUri(artikelURI);
+				p.getArtikel().setArtikelUri(artikelURI);
         	}
 		}
 	}
