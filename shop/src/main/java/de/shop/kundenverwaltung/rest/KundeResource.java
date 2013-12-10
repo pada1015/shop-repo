@@ -147,7 +147,7 @@ public class KundeResource {
 			kunde = ks.findKundeByEmail(email);
 		}
 		else if (plz != null) {
-			// TODO Beispiel fuer ein TODO bei fehlender Implementierung
+			// Beispiel fuer ein bei fehlender Implementierung
 			throw new RuntimeException("Suche nach PLZ noch nicht implementiert");
 		}
 		else {
@@ -254,6 +254,7 @@ public class KundeResource {
 		ks.updateKunde(kunde);
 	}
 	
+	//TODO
 	@DELETE
 	@Path("{id:[1-9][0-9]*}")
 	@Produces

@@ -42,7 +42,6 @@ public abstract class AbstractKunde implements Serializable {
 	private static final int NACHNAME_LENGTH_MAX = 32;
 	private static final int EMAIL_LENGTH_MAX = 128;
 
-	
 	private Long id;
 
 	@NotNull(message = "{kunde.nachname.notNull}")

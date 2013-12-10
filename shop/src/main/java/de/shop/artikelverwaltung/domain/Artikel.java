@@ -3,16 +3,22 @@ package de.shop.artikelverwaltung.domain;
 import java.io.Serializable;
 import java.net.URI;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 public class Artikel implements Serializable {
 	private static final long serialVersionUID = 1472129607838538329L;
 	
+	@NotNull(message="{artikel.notFound.id}")
 	private Long id;
-
-	// TODO Bean Validation
+	
+	@Size(min=2, max=40, message="{artikel.laenge.name}")
+	//@Pattern(regexp = "[A-Z\u00C4\u00D6\u00DC][a-z\u00E4\u00F6\u00FC\u00DF]+", message = "{artikel.bezeichner.pattern}")
 	private String bezeichnung;
 	
 	private URI artikelUri;
 	
+	@NotNull
 	private double price;
 	
 	public Long getId() {

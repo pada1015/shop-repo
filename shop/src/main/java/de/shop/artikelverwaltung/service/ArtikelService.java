@@ -16,21 +16,18 @@ public class ArtikelService implements Serializable {
 
 	@NotNull(message = "{artikel.notFound.id}")
 	public Artikel findArtikelById(Long id) {
-		// TODO id pruefen
 		// TODO Datenbanzugriffsschicht statt Mock
 		return Mock.findArtikelById(id);
 	}
 	
 	@NotNull(message = "{artikel.notFound.id}")
 	public Artikel createArtikel(Artikel artikel) {
-		// TODO id pruefen
 		// TODO Datenbanzugriffsschicht statt Mock
 		return Mock.createArtikel(artikel);
 	}
 	
 	@NotNull(message = "{artikel.notFound.id}")
 	public Artikel updateArtikel(Artikel artikel) {
-		// TODO id pruefen
 		// TODO Datenbanzugriffsschicht statt Mock
 		return Mock.createArtikel(artikel);
 	}

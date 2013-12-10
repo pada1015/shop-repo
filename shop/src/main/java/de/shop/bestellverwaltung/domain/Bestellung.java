@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.net.URI;
 import java.util.List;
 
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import de.shop.kundenverwaltung.domain.AbstractKunde;
@@ -13,12 +14,13 @@ public class Bestellung implements Serializable {
 	
 private static final long serialVersionUID = 1618359234119003714L;
 	
+	@NotNull
 	private Long id;
 	
 	private boolean ausgeliefert;	
 
 	private AbstractKunde kunde;
-
+	
 	private List<Posten> posten;
 	
 	private URI kundeUri;
